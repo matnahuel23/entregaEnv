@@ -5,6 +5,7 @@ const path = require('path');
 const { Server } = require('socket.io');
 const handlebars = require('express-handlebars');
 const Swal = require('sweetalert2');
+const Contenedor = require('./manager/product.manager');
 
 const app = express();
 const server = http.createServer(app);
@@ -38,9 +39,16 @@ io.on("connection", (socket) => {
     })
 
 
-    socket.on("addProduct", (product) => {
-        console.log("Product added:", product.title);
-        io.emit("productAdded", product);
+    const productsJsonPath = path.join(__dirname, 'data', 'products.json');
+    socket.on('addProduct', async (product) => {
+        try {
+            const contenedor = new Contenedor(productsJsonPath);    
+                const newProductId = await contenedor.save(product);
+                const newProduct = { id: newProductId, ...product };
+                io.emit('productAdded', newProduct);
+            } catch (error) {
+                console.error('Error al agregar el producto:', error);
+            }
     });
 
     socket.on("disconnect", () => {

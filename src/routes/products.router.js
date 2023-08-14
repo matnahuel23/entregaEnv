@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Contenedor = require('../manager/product.manager')
 const contenedor = new Contenedor('../data/products.json')
+const path = require('path');
 
 // Array de productos
 const products = []
@@ -92,7 +93,8 @@ router.delete('/api/products/:pid', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
     try {
         const products = await contenedor.getAll();
-        res.render('/realtimeproducts', { products });
+        const viewPath = path.join(__dirname, '../views/realtimeproducts.hbs');
+        res.render(viewPath, { products });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener los productos.' });
     }

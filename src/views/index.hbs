@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="username-form">
+        <h1>Ingrese su nombre de usuario:</h1>
+        <form id="username-form">
+            <input type="text" id="username" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+
+    <div id="product-form" style="display: none">
+        <h1>Producto</h1>
+        <form id="form" action="/api/products" method="post">
+            <label for="title">Nombre del Producto</label>
+            <input type="text" name="title" id="title" required>
+            <label for="description">Descripción</label>
+            <input type="text" name="description" id="description" required>
+            <label for="code">Código del Producto</label>
+            <input type="text" name="code" id="code" required>
+            <label for="price">Precio</label>
+            <input type="number" name="price" id="price" required>
+            <label for="stock">Cantidad en Stock</label>
+            <input type="number" name="stock" id="stock" required>
+            <label for="category">Categoría</label>
+            <input type="text" name="category" id="category" required>
+            <button type="submit">Agregar Producto</button>
+        </form>
+    </div>
+
+    <h1>Productos Agregados</h1>
+    <table id="product-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas de productos se agregarán aquí dinámicamente -->
+        </tbody>
+    </table>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts.js"></script>
+</body>
+
+</html>
+

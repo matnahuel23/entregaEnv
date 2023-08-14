@@ -50,6 +50,16 @@ io.on("connection", (socket) => {
                 console.error('Error al agregar el producto:', error);
             }
     });
+    socket.on("deleteProduct", async (productId) => {
+        try {
+            // Eliminar el producto por ID
+            await contenedor.deleteById(productId);
+            // Emitir evento de producto eliminado al cliente
+            io.emit('productDeleted', productId);
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error);
+        }
+    });
 
     socket.on("disconnect", () => {
         const username = users[socket.id];

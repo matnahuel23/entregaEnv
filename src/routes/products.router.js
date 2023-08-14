@@ -83,7 +83,7 @@ router.put('/api/products/:pid', async (req, res) => {
 router.delete('/api/products/:pid', async (req, res) => {
     try {
         const pid = req.params.pid;
-        await contenedor.deleteById(pid);        
+        await contenedor.deleteById(pid);
         res.json({ message: 'Producto eliminado correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el producto.' });

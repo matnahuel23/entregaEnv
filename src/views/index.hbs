@@ -35,22 +35,15 @@
             <input type="text" name="category" id="category" required>
             <button type="submit">Agregar Producto</button>
         </form>
+        <div>
+            <h1>Eliminar Producto</h1>
+                <form id="delete-form">
+                    <label for="delete-id">ID del Producto</label>
+                    <input type="number" name="delete-id" id="delete-id" required>
+                    <button type="submit">Eliminar Producto</button>
+                </form>
+        </div>
     </div>
-
-   {{!-- // Chequeo y  muestro la carga de los productos
-   <h1>Productos Agregados</h1>
-    <table id="product-table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Cantidad</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Filas de productos se agregarán aquí dinámicamente -->
-        </tbody>
-    </table> --}}
-
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts.js"></script>
 </body>

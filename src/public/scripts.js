@@ -52,14 +52,30 @@ document.getElementById("form").addEventListener("submit", (e) => {
     document.getElementById("category").value = "";
 });
 
-/*  //Carga de los productos dinamica en "/"
-    socket.on("productAdded", (product) => {
-    console.log("Product added:", product.title);
-    const productTable = document.getElementById("product-table").getElementsByTagName("tbody")[0];
-    const newRow = productTable.insertRow();
-    const nameCell = newRow.insertCell(0);
-    nameCell.innerHTML = product.title;
-    const stockCell = newRow.insertCell(1);
-    stockCell.innerHTML = product.stock; 
+// Eliminar un producto
+document.getElementById("delete-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const deleteId = document.getElementById("delete-id").value;
+    
+    try {
+        const response = await fetch(`/api/products/${deleteId}`, {
+            method: "DELETE",
+        });
+        if (response.ok) {
+            Swal.fire({
+                icon: "success",
+                title: "Producto eliminado",
+                text: `El producto con ID ${deleteId} ha sido eliminado exitosamente`,
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: `No se pudo eliminar el producto con ID ${deleteId}`,
+            });
+        }
+    } catch (error) {
+        console.error("Error al eliminar el producto:", error);
+    }
 });
- */

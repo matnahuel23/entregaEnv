@@ -48,14 +48,20 @@ class Contenedor {
 
     async deleteById(id) {
         try {
+            const productToDelete = await this.getById(id);
+            
+            if (!productToDelete) {
+                throw new Error(`Producto con ID ${id} no encontrado.`);
+            }
             let objects = await this.getAllObjects();
-            objects = objects.filter((o) => o.id !== id);
+            objects = objects.filter((o) => o.id.toString() !== id.toString());
             await this.saveObjects(objects);
         } catch (error) {
             throw new Error('Error al eliminar el objeto');
         }
     }
-
+    
+    
     async deleteAll() {
         try {
             await this.saveObjects([]);

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "1692023278889",
+    "title": "producto",
+    "description": "Descripción del nuevo producto",
+    "code": 5221,
+    "price": 213,
+    "status": true,
+    "stock": 2130,
+    "category": "Electrónicos",
+    "thumbnails": []
+  }
+]

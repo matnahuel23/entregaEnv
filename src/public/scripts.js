@@ -36,13 +36,13 @@ document.getElementById("form").addEventListener("submit", (e) => {
         category
     };
 
-    socket.emit("addProduct", product);
-
     Swal.fire({
         icon: "success",
         title: "Producto agregado",
         text: `El producto ${product.title} ha sido agregado exitosamente`
     });
+
+    socket.emit("addProduct", product);
 
     document.getElementById("title").value = "";
     document.getElementById("description").value = "";
@@ -61,6 +61,29 @@ socket.on("productAdded", (product) => {
     const stockCell = newRow.insertCell(1);
     stockCell.innerHTML = product.stock; 
 });
+
+// Función para cargar y mostrar todos los productos en la tabla
+async function loadProducts() {
+    try {
+        const response = await fetch('/api/products');
+        const products = await response.json();
+        const productTable = document.getElementById("product-table").getElementsByTagName("tbody")[0];
+        productTable.innerHTML = ''; // Limpiar la tabla antes de cargar los productos
+
+        products.forEach((product) => {
+            const newRow = productTable.insertRow();
+            const nameCell = newRow.insertCell(0);
+            nameCell.innerHTML = product.title;
+            const stockCell = newRow.insertCell(1);
+            stockCell.innerHTML = product.stock;
+        });
+    } catch (error) {
+        console.error("Error al cargar los productos:", error);
+    }
+}
+
+// Cargar los productos al cargar la página
+window.addEventListener('load', loadProducts);
 
 
 

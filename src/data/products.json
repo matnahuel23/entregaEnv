@@ -1,6 +1,6 @@
 [
   {
-    "id": "1692031170706",
+    "id": "1692034988186",
     "title": "1",
     "description": "1",
     "code": "1",
@@ -9,7 +9,16 @@
     "category": "1"
   },
   {
-    "id": "1692033845397",
+    "id": "1692035030857",
+    "title": "2",
+    "description": "2",
+    "code": "2",
+    "price": "2",
+    "stock": "2",
+    "category": "2"
+  },
+  {
+    "id": "1692035036810",
     "title": "3",
     "description": "3",
     "code": "3",
@@ -18,12 +27,23 @@
     "category": "3"
   },
   {
-    "id": "1692033858533",
+    "id": "1692035048709",
     "title": "4",
     "description": "4",
     "code": "4",
     "price": "4",
     "stock": "4",
     "category": "4"
+  },
+  {
+    "id": "1692035319747",
+    "title": "producto",
+    "description": "Descripción del nuevo producto",
+    "code": 5221,
+    "price": 213,
+    "status": true,
+    "stock": 2130,
+    "category": "Electrónicos",
+    "thumbnails": []
   }
 ]

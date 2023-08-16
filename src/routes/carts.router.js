@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Contenedor = require('../manager/contenedor')
 const contenedor = new Contenedor('../data/carts.json')
+const productsContenedor = new Contenedor('../data/products.json');
 const path = require('path');
-const {products } = require('./products.router')
+const { Console } = require('console');
 
 // Array de carritos
-const carts = []
+const cart = []
 
 // Ruta para obtener todos los carritos
-router.get('/api/carts', async (req, res) => {
+router.get('/api/cart', async (req, res) => {
     try {
         const carts = await contenedor.getAll();
         res.json(carts);
@@ -19,7 +20,7 @@ router.get('/api/carts', async (req, res) => {
 });
 
 // Ruta para obtener un carrito por id
-router.get('/api/carts/:pid', async (req, res) => {
+router.get('/api/cart/:pid', async (req, res) => {
     try {
         const pid = req.params.pid;
         const cart = await contenedor.getById(pid);
@@ -33,7 +34,7 @@ router.get('/api/carts/:pid', async (req, res) => {
 });
 
 // Ruta para agregar un nuevo carrito
-router.post('/api/carts', async (req, res) => {
+router.post('/api/cart', async (req, res) => {
     try {
         const newCart = {
             products : [],
@@ -45,30 +46,44 @@ router.post('/api/carts', async (req, res) => {
 }
 });
 
-router.post('/api/carts/:cid/product/:pid', (req, res) => {
-    const cid = req.params.cid;
-    const pid = req.params.pid;
-    const { quantity } = req.body;
-    // Buscamos el carrito por su ID
-    const cart = carts.find((cart) => cart.id === cid);
-    if (!cart) {
-        return res.status(404).json({ error: 'Carrito no encontrado.' });
+router.post('/api/cart/:cid/product/:pid', async (req, res) => {
+    try {
+         const cid = req.params.cid;
+         const pid = req.params.pid;
+         const { quantity } = req.body;
+         const products = await productsContenedor.getAll();
+         if (quantity <= 0) {
+             return res.status(400).json({ error: 'Debe ingresar al menos una unidad del producto.' });
+         }
+         // Verificamos si el carrito existe
+         const cartAdd = await contenedor.getById(cid);
+         if (!cartAdd) {
+             return res.status(404).json({ error: 'Carrito no encontrado.' });
+         }
+         // Verificamos si el producto existe
+         const product = products.find((product) => product.id === pid);
+         if (!product) {
+             return res.status(404).json({ error: 'Producto no encontrado.' });
+         }
+         // Buscamos el producto existente en el carrito
+         const existingProductIndex = cartAdd.products.findIndex((item) => item.pId === pid);
+        if (existingProductIndex !== -1) {
+            // Actualizamos la cantidad del producto existente
+            cartAdd.products[existingProductIndex].quantity += quantity || 1;
+        } else {
+            // Agregamos el nuevo producto al arreglo "products" del carrito con la cantidad
+            cartAdd.products.push({ pId: pid, quantity: quantity || 1 });
+        }
+        
+        // Guardamos el carrito actualizado
+        await contenedor.save(cartAdd);
+        
+        return res.json({ message: 'Producto agregado al carrito correctamente.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al actualizar el producto.' });
     }
-      // Verificamos si el producto existe en products.router.products
-    const product = products.find((product) => product.id === pid);
-    if (!product) {
-        return res.status(404).json({ error: 'Producto no encontrado.' });
-    }
-    // Verificamos si el producto ya existe en el carrito
-    const existingProduct = cart.products.find((item) => item.product === pid);
-    if (existingProduct) {
-        existingProduct.quantity += quantity || 1;
-    } else {
-        // Agregamos el producto al arreglo "products" del carrito con la cantidad
-        cart.products.push({ product: pid, quantity: quantity || 1 });
-    }
-    return res.json({ message: 'Producto agregado al carrito correctamente.' });
-  });
-  
+});
+ 
+
 //exporto el router
 module.exports = {router};

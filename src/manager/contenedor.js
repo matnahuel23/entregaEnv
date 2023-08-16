@@ -82,13 +82,20 @@ class Contenedor {
     async save(obj) {
         try {
             const objects = await this.getAllObjects();
-            const newId = generateUniqueId();
-            const newObj = { id: newId, ...obj };
-            objects.push(newObj);
+            const existingObjectIndex = objects.findIndex((o) => o.id === obj.id);
+            if (existingObjectIndex !== -1) {
+                // Si el objeto existe, actualizamos sus propiedades
+                objects[existingObjectIndex] = { ...objects[existingObjectIndex], ...obj };
+            } else {
+                // Si el objeto no existe, lo agregamos como nuevo
+                const newId = generateUniqueId();
+                const newObj = { id: newId, ...obj };
+                objects.push(newObj);
+            }
             await this.saveObjects(objects);
-            return newId;
+            return obj.id;
         } catch (error) {
-            throw new Error('Error al guardar el objeto');
+            throw new Error('Error al guardar o actualizar el objeto');
         }
     }
 }

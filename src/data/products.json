@@ -27,23 +27,30 @@
     "category": "3"
   },
   {
-    "id": "1692035048709",
-    "title": "4",
-    "description": "4",
-    "code": "4",
-    "price": "4",
-    "stock": "4",
-    "category": "4"
+    "id": "1692105968556",
+    "title": "78",
+    "description": "78",
+    "code": "78",
+    "price": "78",
+    "stock": "78",
+    "category": "78"
   },
   {
-    "id": "1692035319747",
-    "title": "producto",
-    "description": "Descripción del nuevo producto",
-    "code": 5221,
-    "price": 213,
-    "status": true,
-    "stock": 2130,
-    "category": "Electrónicos",
-    "thumbnails": []
+    "id": "1692106079408",
+    "title": "asf",
+    "description": "77",
+    "code": "77",
+    "price": "77",
+    "stock": "77",
+    "category": "77"
+  },
+  {
+    "id": "1692106115655",
+    "title": "afag",
+    "description": "61",
+    "code": "161",
+    "price": "1",
+    "stock": "1313",
+    "category": "2"
   }
 ]

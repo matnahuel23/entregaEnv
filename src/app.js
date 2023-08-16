@@ -5,12 +5,13 @@ const path = require('path');
 const { Server } = require('socket.io');
 const handlebars = require('express-handlebars');
 const Swal = require('sweetalert2');
-const Contenedor = require('./manager/product.manager');
+const Contenedor = require('./manager/contenedor');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 const productsRouter = require('./routes/products.router')
+const cartsRouter = require('./routes/carts.router')
 
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/', productsRouter.router)
+app.use('/', cartsRouter.router)
 
 //*********************************************************/
 
@@ -52,10 +54,33 @@ io.on("connection", (socket) => {
     });
     socket.on("deleteProduct", async (productId) => {
         try {
+            const contenedor = new Contenedor(productsJsonPath);
             await contenedor.deleteById(productId);
             io.emit('productDeleted', productId);
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
+        }
+    });
+
+    const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
+    socket.on('addCart', async (cart) => {
+        try {
+                const contenedor = new Contenedor(cartsJsonPath);    
+                const newCartId = await contenedor.save(cart);
+                const newCart = { id: newCartId, ...cart };
+                io.emit('cartAdded', newCart);
+            } catch (error) {
+                console.error('Error al agregar el carrito:', error);
+            }
+    });
+    
+    socket.on("deleteCart", async (cartId) => {
+        try {
+            const contenedor = new Contenedor(cartsJsonPath);
+            await contenedor.deleteById(cartId);
+            io.emit('cartDeleted', cartId);
+        } catch (error) {
+            console.error('Error al eliminar el carrito:', error);
         }
     });
 

@@ -46,6 +46,7 @@ router.post('/api/cart', async (req, res) => {
 }
 });
 
+// Ruta para agregar uno o varios productos a un carrito existente
 router.post('/api/cart/:cid/product/:pid', async (req, res) => {
     try {
          const cid = req.params.cid;
@@ -65,6 +66,10 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
          if (!product) {
              return res.status(404).json({ error: 'Producto no encontrado.' });
          }
+         // Verifico que la cantidad no sea mayor al stock
+        if (product.stock < quantity) {
+            return res.status(404).json({ error: 'No disponemos de ese stock.' });
+        }
          // Buscamos el producto existente en el carrito
          const existingProductIndex = cartAdd.products.findIndex((item) => item.pId === pid);
         if (existingProductIndex !== -1) {
@@ -74,16 +79,17 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
             // Agregamos el nuevo producto al arreglo "products" del carrito con la cantidad
             cartAdd.products.push({ pId: pid, quantity: quantity || 1 });
         }
-        
         // Guardamos el carrito actualizado
         await contenedor.save(cartAdd);
-        
+        // Actualizo el stock del producto
+        product.stock -= quantity;
+        // Guardamos el producto con el stock actualizado
+        await productsContenedor.save(product);
         return res.json({ message: 'Producto agregado al carrito correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar el producto.' });
     }
 });
  
-
 //exporto el router
 module.exports = {router};

@@ -5,7 +5,7 @@
     "description": "1",
     "code": "1",
     "price": "1",
-    "stock": "1",
+    "stock": 10,
     "category": "1"
   },
   {
@@ -28,12 +28,12 @@
   },
   {
     "id": "1692105968556",
-    "title": "78",
-    "description": "78",
-    "code": "78",
-    "price": "78",
-    "stock": "78",
-    "category": "78"
+    "title": "Lala",
+    "description": "Pepe",
+    "code": 11,
+    "price": 11,
+    "stock": 8,
+    "category": "Electrónicos"
   },
   {
     "id": "1692106079408",
@@ -41,16 +41,47 @@
     "description": "77",
     "code": "77",
     "price": "77",
-    "stock": "77",
+    "stock": 74,
     "category": "77"
   },
   {
-    "id": "1692106115655",
-    "title": "afag",
-    "description": "61",
-    "code": "161",
-    "price": "1",
-    "stock": "1313",
-    "category": "2"
+    "id": "1692208751836",
+    "title": "abc",
+    "description": "abc",
+    "code": "abc",
+    "price": "123",
+    "stock": "123",
+    "category": "123"
+  },
+  {
+    "id": "1692208778892",
+    "title": "producto",
+    "description": "Descripción del nuevo producto",
+    "code": 5221,
+    "price": 213,
+    "status": true,
+    "stock": 2130,
+    "category": "Electrónicos",
+    "thumbnails": []
+  },
+  {
+    "id": "1692210895335",
+    "title": "qwe",
+    "description": "qwe",
+    "code": "qwe",
+    "price": "12",
+    "stock": "125",
+    "category": "qwe"
+  },
+  {
+    "id": "1692371557448",
+    "title": "Lala",
+    "description": "Pepe",
+    "code": 11,
+    "price": 11,
+    "status": true,
+    "stock": 11,
+    "category": "Electrónicos",
+    "thumbnails": []
   }
 ]

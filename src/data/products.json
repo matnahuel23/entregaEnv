@@ -1,87 +1,68 @@
 [
   {
-    "id": "1692034988186",
-    "title": "1",
-    "description": "1",
-    "code": "1",
-    "price": "1",
-    "stock": 10,
-    "category": "1"
-  },
-  {
-    "id": "1692035030857",
-    "title": "2",
-    "description": "2",
-    "code": "2",
-    "price": "2",
-    "stock": "2",
-    "category": "2"
-  },
-  {
-    "id": "1692035036810",
-    "title": "3",
-    "description": "3",
-    "code": "3",
-    "price": "3",
-    "stock": "3",
-    "category": "3"
-  },
-  {
-    "id": "1692105968556",
-    "title": "Lala",
-    "description": "Pepe",
-    "code": 11,
-    "price": 11,
-    "stock": 8,
-    "category": "Electrónicos"
-  },
-  {
-    "id": "1692106079408",
-    "title": "asf",
-    "description": "77",
-    "code": "77",
-    "price": "77",
-    "stock": 74,
-    "category": "77"
-  },
-  {
-    "id": "1692208751836",
-    "title": "abc",
-    "description": "abc",
-    "code": "abc",
-    "price": "123",
-    "stock": "123",
-    "category": "123"
-  },
-  {
-    "id": "1692208778892",
-    "title": "producto",
-    "description": "Descripción del nuevo producto",
-    "code": 5221,
-    "price": 213,
+    "id": "1692379080075",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 3,
     "status": true,
-    "stock": 2130,
-    "category": "Electrónicos",
+    "stock": 4,
+    "category": "A",
     "thumbnails": []
   },
   {
-    "id": "1692210895335",
-    "title": "qwe",
-    "description": "qwe",
-    "code": "qwe",
-    "price": "12",
-    "stock": "125",
-    "category": "qwe"
+    "id": "1692379082172",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 10,
+    "status": true,
+    "stock": 7,
+    "category": "A",
+    "thumbnails": []
   },
   {
-    "id": "1692371557448",
-    "title": "Lala",
-    "description": "Pepe",
-    "code": 11,
-    "price": 11,
+    "id": "1692379083106",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 50,
     "status": true,
-    "stock": 11,
-    "category": "Electrónicos",
+    "stock": 7,
+    "category": "A",
+    "thumbnails": []
+  },
+  {
+    "id": "1692379088873",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 15,
+    "status": true,
+    "stock": 77,
+    "category": "A",
+    "thumbnails": []
+  },
+  {
+    "id": "1692379093516",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 10,
+    "status": true,
+    "stock": 20,
+    "category": "A",
+    "thumbnails": []
+  },
+  {
+    "id": "1692379099554",
+    "title": "A",
+    "description": "A",
+    "code": 10,
+    "price": 10,
+    "status": true,
+    "stock": 12,
+    "category": "A",
     "thumbnails": []
   }
 ]

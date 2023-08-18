@@ -38,6 +38,7 @@ router.post('/api/cart', async (req, res) => {
     try {
         const newCart = {
             products : [],
+            total : 0,
         }    
         const newCartId = await contenedor.save(newCart);  // El ID se generará automáticamente en la función save
         res.json({ message: 'Carrito agregado correctamente.', product: { id: newCartId, ...newCart } });
@@ -53,6 +54,7 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
          const pid = req.params.pid;
          const { quantity } = req.body;
          const products = await productsContenedor.getAll();
+         // Verifico que la cantidad sea > 0
          if (quantity <= 0) {
              return res.status(400).json({ error: 'Debe ingresar al menos una unidad del producto.' });
          }
@@ -85,6 +87,10 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
         product.stock -= quantity;
         // Guardamos el producto con el stock actualizado
         await productsContenedor.save(product);
+        // Calcular el precio total del producto y actualizar el carrito
+        const productTotal = product.price * quantity;
+        cartAdd.total = (cartAdd.total || 0) + productTotal;
+        await contenedor.save(cartAdd);
         return res.json({ message: 'Producto agregado al carrito correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar el producto.' });

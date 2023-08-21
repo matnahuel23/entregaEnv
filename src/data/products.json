@@ -64,5 +64,14 @@
     "stock": 12,
     "category": "A",
     "thumbnails": []
+  },
+  {
+    "id": "1692631027965",
+    "title": "as",
+    "description": "as",
+    "code": "as",
+    "price": "12",
+    "stock": "12",
+    "category": "12"
   }
 ]

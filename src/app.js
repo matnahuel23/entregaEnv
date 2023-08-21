@@ -10,8 +10,10 @@ const Contenedor = require('./manager/contenedor');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+//Routes
 const productsRouter = require('./routes/products.router')
 const cartsRouter = require('./routes/carts.router')
+const chatRouter = require('./routes/chat.router')
 
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/', productsRouter.router)
 app.use('/', cartsRouter.router)
+app.use('/', chatRouter.router)
 
 //*********************************************************/
 
@@ -34,13 +37,20 @@ app.get("/", (req, res) => {
 const users = {}
 
 io.on("connection", (socket) => {
+    // Conexión y Desconexión de usuarios
     socket.on("newUser", (username) => {
         users[socket.id] = username;
         console.log(`Un usuario se ha conectado`);
         io.emit("userConnected", username)
     })
+    socket.on("disconnect", () => {
+        const username = users[socket.id];
+        console.log(`Un usuario ${username} se ha desconectado`);
+        delete users[socket.id];
+        io.emit("userDisconnected", username)
+    })
 
-
+    // Agregar y Borrar Productos
     const productsJsonPath = path.join(__dirname, 'data', 'products.json');
     socket.on('addProduct', async (product) => {
         try {
@@ -62,6 +72,7 @@ io.on("connection", (socket) => {
         }
     });
 
+    // Agregar y borrar Carrito 
     const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
     socket.on('addCart', async (cart) => {
         try {
@@ -73,7 +84,6 @@ io.on("connection", (socket) => {
                 console.error('Error al agregar el carrito:', error);
             }
     });
-    
     socket.on("deleteCart", async (cartId) => {
         try {
             const contenedor = new Contenedor(cartsJsonPath);
@@ -84,12 +94,13 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("disconnect", () => {
+    // Chat
+    socket.on("chatMessage", (message) => {
+        console.log("Mensaje ingresado");
         const username = users[socket.id];
-        console.log(`Un usuario ${username} se ha desconectado`);
-        delete users[socket.id];
-        io.emit("userDisconnected", username)
+        io.emit("message", { username, message })
     })
+
 })
 
 const PORT = process.env.PORT || 8080;

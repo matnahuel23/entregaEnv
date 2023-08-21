@@ -73,5 +73,49 @@
     "price": "12",
     "stock": "12",
     "category": "12"
+  },
+  {
+    "id": "1692631921361",
+    "title": "55",
+    "description": "55",
+    "code": "55",
+    "price": "55",
+    "stock": "55",
+    "category": "55",
+    "thumbnails": [],
+    "status": true
+  },
+  {
+    "id": "1692632087211",
+    "title": "12",
+    "description": "12",
+    "code": "12",
+    "price": "12",
+    "stock": "12",
+    "category": "12",
+    "thumbnails": [],
+    "status": true
+  },
+  {
+    "id": "1692632195014",
+    "title": "89",
+    "description": "89",
+    "code": "89",
+    "price": "89",
+    "stock": "89",
+    "category": "89",
+    "thumbnails": [],
+    "status": true
+  },
+  {
+    "id": "1692632230339",
+    "title": "86",
+    "description": "86",
+    "code": 86,
+    "price": 86,
+    "stock": 86,
+    "category": "86",
+    "thumbnails": [],
+    "status": true
   }
 ]

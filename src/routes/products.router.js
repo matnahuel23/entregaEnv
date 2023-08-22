@@ -39,7 +39,10 @@ router.post('/api/products', uploader.single('thumbnails'), async (req, res) => 
         if (!title || !description || !code || !price || !stock || !category) {
             return res.status(400).json({ error: 'Todos los campos obligatorios deben ser proporcionados.' });
         }
-        const thumbnailFilename = req.file.filename;
+        let thumbnailFilename = '';
+        if (req.file) {
+            thumbnailFilename = req.file.filename;
+        }
         const newProduct = {
             title,
             description,
@@ -48,7 +51,7 @@ router.post('/api/products', uploader.single('thumbnails'), async (req, res) => 
             status: true,
             stock: parseInt(stock),
             category,
-            thumbnails: [thumbnailFilename] || []
+            thumbnails: thumbnailFilename ? [thumbnailFilename] : []
         };
         const newProductId = await contenedor.save(newProduct);  // El ID se generará automáticamente en la función save
         res.json({ message: 'Producto agregado correctamente.', product: { id: newProductId, ...newProduct } });

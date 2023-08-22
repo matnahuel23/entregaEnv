@@ -21,24 +21,21 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = new FormData(form);
-
     try {
         const response = await fetch('/api/products', {
-            method: 'POST',
+            method: 'post',
             body: formData
-        });
-
+        })
         if (response.ok) {
-            const newProduct = response.product;
-
+            const jsonResponse = await response.json();
+            const newProduct = jsonResponse.product;
             Swal.fire({
                 icon: "success",
                 title: "Producto agregado",
                 text: `El producto ${newProduct.title} ha sido agregado exitosamente`
             });
-
             socket.emit("addProduct", newProduct);
-
+            // Limpio formulario
             document.getElementById('title').value = "";
             document.getElementById('description').value = "";
             document.getElementById('code').value = "";
@@ -56,9 +53,6 @@ document.getElementById("form").addEventListener("submit", async (e) => {
         console.error("Error al agregar el producto:", error);
     }
 });
-
-
-
 
 // Eliminar un producto
 document.getElementById("delete-form").addEventListener("submit", async (e) => {

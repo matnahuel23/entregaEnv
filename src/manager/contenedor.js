@@ -82,9 +82,12 @@ class Contenedor {
     async save(obj) {
         try {
             const objects = await this.getAllObjects();
-            const existingObjectIndex = objects.findIndex((o) => o.id === obj.id);
+            const existingObjectIndex = objects.findIndex(
+                (o) => o.title === obj.title && o.description === obj.description && o.code === obj.code
+            );
+    
             if (existingObjectIndex !== -1) {
-                // Si el objeto existe, actualizamos sus propiedades
+                // Si el objeto ya existe, actualizamos sus propiedades
                 objects[existingObjectIndex] = { ...objects[existingObjectIndex], ...obj };
             } else {
                 // Si el objeto no existe, lo agregamos como nuevo
@@ -92,12 +95,14 @@ class Contenedor {
                 const newObj = { id: newId, ...obj };
                 objects.push(newObj);
             }
+    
             await this.saveObjects(objects);
             return obj.id;
         } catch (error) {
             throw new Error('Error al guardar o actualizar el objeto');
         }
     }
+    
 }
 
 module.exports = Contenedor;

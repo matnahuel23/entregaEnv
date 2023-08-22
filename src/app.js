@@ -54,14 +54,15 @@ io.on("connection", (socket) => {
     const productsJsonPath = path.join(__dirname, 'data', 'products.json');
     socket.on('addProduct', async (product) => {
         try {
-            const contenedor = new Contenedor(productsJsonPath);    
-                const newProductId = await contenedor.save(product);
-                const newProduct = { id: newProductId, ...product };
-                io.emit('productAdded', newProduct);
-            } catch (error) {
-                console.error('Error al agregar el producto:', error);
-            }
+            const contenedor = new Contenedor(productsJsonPath);
+            const newProductId = await contenedor.save(product);
+            const newProduct = { id: newProductId, ...product };
+            io.emit('productAdded', newProduct);
+        } catch (error) {
+            console.error('Error al agregar el producto:', error);
+        }
     });
+    
     socket.on("deleteProduct", async (productId) => {
         try {
             const contenedor = new Contenedor(productsJsonPath);
@@ -84,6 +85,7 @@ io.on("connection", (socket) => {
                 console.error('Error al agregar el carrito:', error);
             }
     });
+    
     socket.on("deleteCart", async (cartId) => {
         try {
             const contenedor = new Contenedor(cartsJsonPath);

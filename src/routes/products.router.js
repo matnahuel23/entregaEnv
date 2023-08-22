@@ -3,6 +3,7 @@ const router = express.Router();
 const Contenedor = require('../manager/contenedor')
 const contenedor = new Contenedor('../data/products.json')
 const path = require('path');
+const uploader = require('../utils')
 
 // Array de productos
 const products = []
@@ -32,21 +33,22 @@ router.get('/api/products/:pid', async (req, res) => {
 });
 
 // Ruta para agregar un nuevo producto
-router.post('/api/products', async (req, res) => {
+router.post('/api/products', uploader.single('thumbnails'), async (req, res) => {
     try {
-        const { title, description, code, price, stock, category, thumbnails } = req.body;
+        const { title, description, code, price, stock, category} = req.body;
         if (!title || !description || !code || !price || !stock || !category) {
             return res.status(400).json({ error: 'Todos los campos obligatorios deben ser proporcionados.' });
         }
+        const thumbnailFilename = req.file.filename;
         const newProduct = {
             title,
             description,
-            code,
-            price,
+            code: parseInt(code),
+            price: parseFloat(price),
             status: true,
-            stock,
+            stock: parseInt(stock),
             category,
-            thumbnails: thumbnails || []
+            thumbnails: [thumbnailFilename] || []
         };
         const newProductId = await contenedor.save(newProduct);  // El ID se generará automáticamente en la función save
         res.json({ message: 'Producto agregado correctamente.', product: { id: newProductId, ...newProduct } });

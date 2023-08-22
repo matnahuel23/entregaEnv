@@ -17,42 +17,48 @@ document.getElementById("username-form").addEventListener("submit", (e) => {
     document.getElementById("product-form").style.display = "block";
 });
 
-document.getElementById("form").addEventListener("submit", (e) => {
+document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const code = parseInt(document.getElementById('code').value);
-    const price = parseFloat(document.getElementById('price').value);
-    const stock = parseInt(document.getElementById('stock').value);
-    const category = document.getElementById('category').value; 
+    const formData = new FormData(form);
 
-    const product = {
-        title,
-        description,
-        code,
-        price,
-        stock,
-        category,
-        thumbnails: [],
-        status: true,
-    };
+    try {
+        const response = await fetch('/api/products', {
+            method: 'POST',
+            body: formData
+        });
 
-    Swal.fire({
-        icon: "success",
-        title: "Producto agregado",
-        text: `El producto ${product.title} ha sido agregado exitosamente`
-    });
+        if (response.ok) {
+            const newProduct = response.product;
 
-    socket.emit("addProduct", product);
+            Swal.fire({
+                icon: "success",
+                title: "Producto agregado",
+                text: `El producto ${newProduct.title} ha sido agregado exitosamente`
+            });
 
-    document.getElementById('title').value = "";
-    document.getElementById('description').value = "";
-    document.getElementById('code').value = "";
-    document.getElementById('price').value = "";
-    document.getElementById('stock').value = "";
-    document.getElementById('category').value = "";
+            socket.emit("addProduct", newProduct);
+
+            document.getElementById('title').value = "";
+            document.getElementById('description').value = "";
+            document.getElementById('code').value = "";
+            document.getElementById('price').value = "";
+            document.getElementById('stock').value = "";
+            document.getElementById('category').value = "";
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo agregar el producto. Por favor, verifica los campos y vuelve a intentarlo."
+            });
+        }
+    } catch (error) {
+        console.error("Error al agregar el producto:", error);
+    }
 });
+
+
+
 
 // Eliminar un producto
 document.getElementById("delete-form").addEventListener("submit", async (e) => {

@@ -1,143 +1,41 @@
 [
   {
-    "id": "1692379080075",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 3,
-    "status": true,
-    "stock": 4,
-    "category": "A",
-    "thumbnails": []
-  },
-  {
-    "id": "1692379082172",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 10,
-    "status": true,
-    "stock": 7,
-    "category": "A",
-    "thumbnails": []
-  },
-  {
-    "id": "1692379083106",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 50,
-    "status": true,
-    "stock": 7,
-    "category": "A",
-    "thumbnails": []
-  },
-  {
-    "id": "1692379088873",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 15,
-    "status": true,
-    "stock": 77,
-    "category": "A",
-    "thumbnails": []
-  },
-  {
-    "id": "1692379093516",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 10,
-    "status": true,
-    "stock": 20,
-    "category": "A",
-    "thumbnails": []
-  },
-  {
-    "id": "1692379099554",
-    "title": "A",
-    "description": "A",
-    "code": 10,
-    "price": 10,
+    "id": "1692724434349",
+    "title": "ProductoA",
+    "description": "ProductoADescrip",
+    "code": "15",
+    "price": "15",
     "status": true,
     "stock": 12,
-    "category": "A",
-    "thumbnails": []
+    "category": "ProductoACategoria",
+    "thumbnails": [
+      "1692724434342-537905550-cocacola.webp"
+    ]
   },
   {
-    "id": "1692631027965",
-    "title": "as",
-    "description": "as",
-    "code": "as",
-    "price": "12",
-    "stock": "12",
-    "category": "12"
+    "id": "1692724514206",
+    "title": "ProductoB",
+    "description": "ProductoBDescrip",
+    "code": "10",
+    "price": "10",
+    "status": true,
+    "stock": 8,
+    "category": "ProductoACategoria",
+    "thumbnails": [
+      "1692724514200-119812498-PEPSI.webp"
+    ]
   },
   {
-    "id": "1692631921361",
-    "title": "55",
-    "description": "55",
-    "code": "55",
-    "price": "55",
-    "stock": "55",
-    "category": "55",
-    "thumbnails": [],
-    "status": true
-  },
-  {
-    "id": "1692632087211",
-    "title": "12",
-    "description": "12",
-    "code": "12",
-    "price": "12",
-    "stock": "12",
-    "category": "12",
-    "thumbnails": [],
-    "status": true
-  },
-  {
-    "id": "1692632195014",
-    "title": "89",
-    "description": "89",
-    "code": "89",
-    "price": "89",
-    "stock": "89",
-    "category": "89",
-    "thumbnails": [],
-    "status": true
-  },
-  {
-    "id": "1692632230339",
-    "title": "86",
-    "description": "86",
-    "code": 86,
-    "price": 86,
-    "stock": 86,
-    "category": "86",
-    "thumbnails": [],
-    "status": true
-  },
-  {
-    "id": "1692633062321",
-    "title": "qw",
-    "description": "qw",
-    "code": 77,
-    "price": 77,
-    "stock": 77,
-    "category": "qw",
-    "thumbnails": [],
-    "status": true
-  },
-  {
-    "id": "1692633157919",
-    "title": "as",
-    "description": "as",
-    "code": 77,
-    "price": 77,
-    "stock": 40,
-    "category": "as",
-    "thumbnails": [],
-    "status": true
+    "id": "1692724820639",
+    "title": "ProductoC",
+    "description": "ProductoCDescrip",
+    "code": 5,
+    "price": 5,
+    "status": true,
+    "stock": 5,
+    "category": "ProductoACategoria",
+    "thumbnails": [
+      "1692724820631-44950147-manaos.webp"
+    ]
   }
 ]

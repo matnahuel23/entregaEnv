@@ -24,20 +24,15 @@ async function loadProducts() {
             stockCell.innerHTML = product.stock; 
         });
 
-        socket.on("deleteProduct", async (productId) => {
-            try {
-                const validationResult = contenedor.deleteById(productId);
-                if (validationResult.error) {
-                    console.error('Error al eliminar el producto:', validationResult.error);
-                    return;
-                }
-                await contenedor.deleteById(productId);
-                io.emit('productDeleted', productId);
-                loadProducts();
-            } catch (error) {
-                console.error('Error al eliminar el producto:', error);
+        socket.on("productDeleted", (deletedProductId) => {
+            console.log(`Product with ID ${deletedProductId} deleted`);
+            // Buscar y eliminar la fila de la tabla correspondiente al producto eliminado
+            const rowToDelete = findRowByProductId(deletedProductId);
+            if (rowToDelete) {
+                rowToDelete.remove();
             }
         });
+        
     } catch (error) {
         console.error("Error al cargar los productos:", error);
     }

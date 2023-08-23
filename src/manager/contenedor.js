@@ -57,10 +57,10 @@ class Contenedor {
             objects = objects.filter((o) => o.id.toString() !== id.toString());
             await this.saveObjects(objects);
         } catch (error) {
-            throw new Error('Error al eliminar el objeto');
+            throw new Error(`Error al eliminar el objeto con ID ${id}: ${error.message}`);
         }
     }
-
+    
     async deleteAll() {
         try {
             await this.saveObjects([]);

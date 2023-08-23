@@ -66,12 +66,11 @@ io.on("connection", (socket) => {
             }
     });
     
-    socket.on("deleteProduct", async (productId) => {
+    socket.on('deleteProduct', async (productId) => {
         try {
-            const contenedor = new Contenedor(productsJsonPath);   
-            await contenedor.deleteById(productId) 
-            const newList = await contenedor.getAll();
-            io.emit('deleteProduct', newList);
+            const contenedor = new Contenedor(productsJsonPath);
+            await contenedor.deleteById(productId);
+            io.emit('productDeleted', productId);
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }

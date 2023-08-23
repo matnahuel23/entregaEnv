@@ -45,30 +45,8 @@
     "code": 8646,
     "price": 78,
     "status": true,
-    "stock": 15,
+    "stock": 9,
     "category": "ProductoDCategoria",
-    "thumbnails": []
-  },
-  {
-    "id": "1692792383895",
-    "title": "ProductoE",
-    "description": "ProductoEDescrip",
-    "code": 156,
-    "price": 152,
-    "status": true,
-    "stock": 12,
-    "category": "ProductoECat",
-    "thumbnails": []
-  },
-  {
-    "id": "1692796550712",
-    "title": "15",
-    "description": "15",
-    "code": 15,
-    "price": 15,
-    "status": true,
-    "stock": 15,
-    "category": "15",
     "thumbnails": []
   }
 ]

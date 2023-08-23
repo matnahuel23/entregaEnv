@@ -66,6 +66,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
         const response = await fetch(`/api/products/${deleteId}`, {
             method: "DELETE",
         });
+
         if (response.ok) {
             Swal.fire({
                 icon: "success",

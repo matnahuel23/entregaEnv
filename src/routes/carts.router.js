@@ -97,5 +97,39 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
     }
 });
  
+// Ruta para eliminar un carrito por su ID (DELETE /api/cart/:pid)
+router.delete('/api/cart/:pid', async (req, res) => {
+    try {
+        const pid = req.params.pid;
+        const cartToDelete = await contenedor.getById(pid);
+
+        if (!cartToDelete) {
+            return res.status(404).json({ error: 'Carrito no encontrado.' });
+        }
+
+        // Si el carrito tiene productos, ajustar el stock de los productos correspondientes
+        if (cartToDelete.products.length > 0) {
+            const products = await productsContenedor.getAll();
+            
+            for (const cartProduct of cartToDelete.products) {
+                const product = products.find((p) => p.id === cartProduct.pId);
+
+                if (product) {
+                    product.stock += cartProduct.quantity;
+                    await productsContenedor.save(product);
+                }
+            }
+        }
+
+        // Eliminar el carrito
+        await contenedor.deleteById(pid);
+
+        res.json({ message: 'Carrito eliminado correctamente.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el Carrito.' });
+    }
+});
+
+
 //exporto el router
 module.exports = {router};

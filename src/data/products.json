@@ -48,5 +48,16 @@
     "stock": 9,
     "category": "ProductoDCategoria",
     "thumbnails": []
+  },
+  {
+    "id": "1692801082730",
+    "title": "1",
+    "description": "1",
+    "code": 1,
+    "price": 1,
+    "status": true,
+    "stock": 10,
+    "category": "1",
+    "thumbnails": []
   }
 ]

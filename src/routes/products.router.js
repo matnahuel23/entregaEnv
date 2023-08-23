@@ -3,7 +3,7 @@ const router = express.Router();
 const Contenedor = require('../manager/contenedor')
 const contenedor = new Contenedor('../data/products.json')
 const path = require('path');
-const uploader = require('../utils')
+const uploader = require('../utils/multerUtil')
 
 // Array de productos
 const products = []

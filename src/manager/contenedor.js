@@ -83,7 +83,7 @@ class Contenedor {
         try {
             const objects = await this.getAllObjects();
             const existingObjectIndex = objects.findIndex(
-                (o) => o.title === obj.title && o.description === obj.description && o.code === obj.code
+                (o) => o.title === obj.title && o.code === obj.code
             );
     
             if (existingObjectIndex !== -1) {

@@ -17,6 +17,7 @@ document.getElementById("username-form").addEventListener("submit", (e) => {
     document.getElementById("product-form").style.display = "block";
 });
 
+// Agregar un producto
 document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -31,15 +32,12 @@ document.getElementById("form").addEventListener("submit", async (e) => {
         if (response.ok) {
             const responseBody = await response.json();  // Parse the JSON response
             const newProduct = responseBody.product;
-            
+            socket.emit('addProduct', newProduct);
             Swal.fire({
                 icon: "success",
                 title: "Producto agregado",
                 text: `El producto ${newProduct.title} ha sido agregado exitosamente`
             });
-
-            socket.emit("addProduct", newProduct);
-
             document.getElementById('title').value = "";
             document.getElementById('description').value = "";
             document.getElementById('code').value = "";

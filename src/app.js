@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
     socket.on('addProduct', async (product) => {
         try {
                 const contenedor = new Contenedor(productsJsonPath);    
-                const newProductId = await contenedor.save(product);
+                const newProductId = await contenedor.getAll();
                 const newProduct = { id: newProductId, ...product };
                 io.emit('productAdded', newProduct);
             } catch (error) {
@@ -68,9 +68,10 @@ io.on("connection", (socket) => {
     
     socket.on("deleteProduct", async (productId) => {
         try {
-            const contenedor = new Contenedor(productsJsonPath);
-            await contenedor.deleteById(productId);
-            io.emit('productDeleted', productId);
+            const contenedor = new Contenedor(productsJsonPath);   
+            await contenedor.deleteById(productId) 
+            const newList = await contenedor.getAll();
+            io.emit('deleteProduct', newList);
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }

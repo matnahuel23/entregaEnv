@@ -26,7 +26,7 @@ async function loadProducts() {
 
         socket.on("deleteProduct", async (productId) => {
             try {
-                const validationResult = contenedor.validateProductDelete(productId);
+                const validationResult = contenedor.deleteById(productId);
                 if (validationResult.error) {
                     console.error('Error al eliminar el producto:', validationResult.error);
                     return;

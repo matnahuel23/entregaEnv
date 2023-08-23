@@ -45,7 +45,7 @@
     "code": 8646,
     "price": 78,
     "status": true,
-    "stock": 9,
+    "stock": 16,
     "category": "ProductoDCategoria",
     "thumbnails": []
   },
@@ -56,7 +56,7 @@
     "code": 1,
     "price": 1,
     "status": true,
-    "stock": 10,
+    "stock": 12,
     "category": "1",
     "thumbnails": []
   }

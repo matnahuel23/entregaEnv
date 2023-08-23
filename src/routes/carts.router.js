@@ -130,6 +130,63 @@ router.delete('/api/cart/:pid', async (req, res) => {
     }
 });
 
+// Ruta para eliminar un producto específico de un carrito (DELETE /api/cart/:cid/product/:pid)
+router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
+    try {
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        const { quantity } = req.body;
+
+        if (quantity <= 0) {
+            return res.status(400).json({ error: 'La cantidad debe ser mayor que 0.' });
+        }
+
+        const cart = await contenedor.getById(cid);
+
+        if (!cart) {
+            return res.status(404).json({ error: 'Carrito no encontrado.' });
+        }
+
+        const productIndex = cart.products.findIndex((item) => item.pId === pid);
+
+        if (productIndex === -1) {
+            return res.status(404).json({ error: 'Producto no encontrado en el carrito.' });
+        }
+
+        const product = await productsContenedor.getById(pid);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Producto no encontrado.' });
+        }
+
+        const cartProduct = cart.products[productIndex];
+
+        if (cartProduct.quantity < quantity) {
+            return res.status(400).json({ error: 'La cantidad a eliminar es mayor que la cantidad en el carrito.' });
+        }
+
+        // Restar la cantidad del producto en el carrito
+        cartProduct.quantity -= quantity;
+
+        // Actualizar el stock del producto y el total del carrito
+        product.stock += quantity;
+        const productTotal = product.price * quantity;
+        cart.total -= productTotal;
+
+        if (cartProduct.quantity === 0) {
+            // Si la cantidad llega a 0, eliminar el producto del carrito
+            cart.products.splice(productIndex, 1);
+        }
+
+        // Guardo los cambios
+        await productsContenedor.save(product);
+        await contenedor.save(cart);
+
+        res.json({ message: 'Producto eliminado del carrito correctamente.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
+    }
+});
 
 //exporto el router
 module.exports = {router};

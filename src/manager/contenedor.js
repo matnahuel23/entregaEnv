@@ -60,8 +60,7 @@ class Contenedor {
             throw new Error('Error al eliminar el objeto');
         }
     }
-    
-    
+
     async deleteAll() {
         try {
             await this.saveObjects([]);
@@ -82,10 +81,7 @@ class Contenedor {
     async save(obj) {
         try {
             const objects = await this.getAllObjects();
-            const existingObjectIndex = objects.findIndex(
-                (o) => o.title === obj.title && o.code === obj.code
-            );
-    
+            const existingObjectIndex = objects.findIndex((o) => o.id === obj.id);
             if (existingObjectIndex !== -1) {
                 // Si el objeto ya existe, actualizamos sus propiedades
                 objects[existingObjectIndex] = { ...objects[existingObjectIndex], ...obj };
@@ -102,7 +98,6 @@ class Contenedor {
             throw new Error('Error al guardar o actualizar el objeto');
         }
     }
-    
 }
 
 module.exports = Contenedor;

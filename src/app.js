@@ -7,6 +7,10 @@ const handlebars = require('express-handlebars');
 const Swal = require('sweetalert2');
 const Contenedor = require('./manager/contenedor');
 
+const productsJsonPath = path.join(__dirname, 'data', 'products.json');
+const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
+
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -51,16 +55,15 @@ io.on("connection", (socket) => {
     })
 
     // Agregar y Borrar Productos
-    const productsJsonPath = path.join(__dirname, 'data', 'products.json');
     socket.on('addProduct', async (product) => {
         try {
-            const contenedor = new Contenedor(productsJsonPath);
-            const newProductId = await contenedor.save(product);
-            const newProduct = { id: newProductId, ...product };
-            io.emit('productAdded', newProduct);
-        } catch (error) {
-            console.error('Error al agregar el producto:', error);
-        }
+                const contenedor = new Contenedor(productsJsonPath);    
+                const newProductId = await contenedor.save(product);
+                const newProduct = { id: newProductId, ...product };
+                io.emit('productAdded', newProduct);
+            } catch (error) {
+                console.error('Error al agregar el producto:', error);
+            }
     });
     
     socket.on("deleteProduct", async (productId) => {
@@ -74,7 +77,6 @@ io.on("connection", (socket) => {
     });
 
     // Agregar y borrar Carrito 
-    const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
     socket.on('addCart', async (cart) => {
         try {
                 const contenedor = new Contenedor(cartsJsonPath);    

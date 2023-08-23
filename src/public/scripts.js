@@ -21,21 +21,25 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = new FormData(form);
+
     try {
         const response = await fetch('/api/products', {
-            method: 'post',
+            method: 'POST',
             body: formData
-        })
+        });
+
         if (response.ok) {
-            const jsonResponse = await response.json();
-            const newProduct = jsonResponse.product;
+            const responseBody = await response.json();  // Parse the JSON response
+            const newProduct = responseBody.product;
+            
             Swal.fire({
                 icon: "success",
                 title: "Producto agregado",
                 text: `El producto ${newProduct.title} ha sido agregado exitosamente`
             });
+
             socket.emit("addProduct", newProduct);
-            // Limpio formulario
+
             document.getElementById('title').value = "";
             document.getElementById('description').value = "";
             document.getElementById('code').value = "";

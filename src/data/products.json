@@ -6,7 +6,7 @@
     "code": "15",
     "price": "15",
     "status": true,
-    "stock": 12,
+    "stock": 10,
     "category": "ProductoACategoria",
     "thumbnails": [
       "1692724434342-537905550-cocacola.webp"
@@ -19,7 +19,7 @@
     "code": "10",
     "price": "10",
     "status": true,
-    "stock": 8,
+    "stock": 10,
     "category": "ProductoACategoria",
     "thumbnails": [
       "1692724514200-119812498-PEPSI.webp"
@@ -32,7 +32,7 @@
     "code": 5,
     "price": 5,
     "status": true,
-    "stock": 5,
+    "stock": 10,
     "category": "ProductoACategoria",
     "thumbnails": [
       "1692724820631-44950147-manaos.webp"

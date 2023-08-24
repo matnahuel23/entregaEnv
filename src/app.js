@@ -10,7 +10,6 @@ const Contenedor = require('./manager/contenedor');
 const productsJsonPath = path.join(__dirname, 'data', 'products.json');
 const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
 
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -30,6 +29,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/', productsRouter.router)
 app.use('/', cartsRouter.router)
 app.use('/', chatRouter.router)
+
+//Mongoose
+
 
 //*********************************************************/
 

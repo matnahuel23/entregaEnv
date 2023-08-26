@@ -4,6 +4,8 @@ const Contenedor = require('../manager/contenedor')
 const contenedor = new Contenedor('../data/products.json')
 const path = require('path');
 const uploader = require('../utils/multerUtil')
+// Mongoose
+const {userModel} = require('../models/productmodel')
 
 // Array de productos
 const products = []

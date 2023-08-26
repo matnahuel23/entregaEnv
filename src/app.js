@@ -17,6 +17,9 @@ const io = new Server(server);
 const productsRouter = require('./routes/products.router')
 const cartsRouter = require('./routes/carts.router')
 const chatRouter = require('./routes/chat.router')
+//Mongoose*************************************************/
+const mongoose = require('mongoose')
+//*********************************************************/
 
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
@@ -29,12 +32,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/', productsRouter.router)
 app.use('/', cartsRouter.router)
 app.use('/', chatRouter.router)
-
-//Mongoose
-
-
-//*********************************************************/
-
 
 app.get("/", (req, res) => {
     res.render("index.hbs");
@@ -108,6 +105,16 @@ io.on("connection", (socket) => {
     })
 
 })
+
+//mongoose**********************************/
+mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/?retryWrites=true&w=majority')
+.then(()=>{
+    console.log("Conectado a la BD de Mongo Atlas")
+})
+.catch(error=>{
+    console.error("Error en la conexión", error)
+})
+/*******************************************/
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {

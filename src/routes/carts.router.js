@@ -5,6 +5,7 @@ const contenedor = new Contenedor('../data/carts.json')
 const productsContenedor = new Contenedor('../data/products.json');
 const path = require('path');
 const { Console } = require('console');
+const {userModel} = require('../models/cartmodel')
 
 // Array de carritos
 const cart = []

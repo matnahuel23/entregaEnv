@@ -121,7 +121,7 @@ router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
     try {
         const cid = req.params.cid;
         const pid = req.params.pid;
-        const { quantity } = req.body;
+        const quantity = parseInt(req.body.quantity);
 
         if (quantity <= 0) {
             return res.status(400).json({ error: 'La cantidad debe ser mayor que 0.' });
@@ -165,14 +165,14 @@ router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
         }
 
         // Guardo los cambios
-        await productModel.updateOne(product);
-        await cartModel.updateOne(cart);
-
+        await product.save();
+        await cart.save();
         res.json({ message: 'Producto eliminado del carrito correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
     }
 });
+
 
 //exporto el router
 module.exports = {router};

@@ -54,57 +54,43 @@ router.post('/api/cart', async (req, res) => {
 // Ruta para agregar uno o varios productos a un carrito existente
 router.post('/api/cart/:cid/product/:pid', async (req, res) => {
     try {
-         const cid = req.params.cid;
-         const pid = req.params.pid;
-         const { quantity } = req.body;
-         
-         // Verifico que la cantidad sea > 0
-         if (quantity <= 0) {
-             return res.send({status:"error", error: 'Debe ingresar al menos una unidad del producto.' });
-         }
-         // Verificamos si el carrito existe
-         const cartAdd = await cartModel.findOne({_id: cid})
-         if (!cartAdd) {
-            return res.send({status:"error", error: 'Carrito no encontrado' });
-         }
-         // Verificamos si el producto existe
-         const product = await productModel.findOne({_id: pid})
-         if (!product) {
-            return res.send({status:"error", error: 'Producto no encontrado' })
-         }
-         // Verifico que la cantidad no sea mayor al stock
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        const quantity = parseInt(req.body.quantity);
+
+        if (quantity <= 0) {
+            return res.send({ status: "error", error: 'Debe ingresar al menos una unidad del producto.' });
+        }
+        const cartAdd = await cartModel.findOne({ _id: cid });
+        if (!cartAdd) {
+            return res.send({ status: "error", error: 'Carrito no encontrado' });
+        }
+        const product = await productModel.findOne({ _id: pid });
+        if (!product) {
+            return res.send({ status: "error", error: 'Producto no encontrado' });
+        }
         if (product.stock < quantity) {
-            return res.send({status:"error", error: 'No disponemos de ese stock' })
+            return res.send({ status: "error", error: 'No disponemos de ese stock' });
         }
-         
-         // Buscamos el producto existente en el carrito
-         const existingProduct = cartAdd.products.find(item => item.product.equals(pid));
-         if (existingProduct) {
-            // Actualizamos la cantidad del producto existente
-            existingProduct.quantity += quantity || 1;
+        const existingProductIndex = cartAdd.products.findIndex(item => item.product.toString() === pid);
+        if (existingProductIndex !== -1) {
+            cartAdd.products[existingProductIndex].quantity += quantity;
         } else {
-            // Agregamos el nuevo producto al arreglo "products" del carrito con la cantidad
-            cartAdd.products.push({ product: pid, quantity: quantity || 1 });
+            cartAdd.products.push({ product: pid, quantity });
         }
-        // Actualizamos el carrito en la base de datos
-        await cartModel.findOneAndUpdate({ _id: cid }, cartAdd);
-        
-        // Actualizo el stock del producto
+        cartAdd.markModified('products');
+        await cartAdd.save();
+        // Actualiza el stock del producto y el total del carrito
         product.stock -= quantity;
-        // Actualizamos el producto en la base de datos
-        await productModel.findOneAndUpdate({ _id: pid }, product);
-        
-        // Calcular el precio total del producto y actualizar el carrito
-        const productTotal = product.price * quantity;
-        cartAdd.total = (cartAdd.total || 0) + productTotal;
-        // Actualizamos el total del carrito en la base de datos
-        await cartModel.findOneAndUpdate({ _id: cid }, { total: cartAdd.total });
+        await product.save();
+        cartAdd.total += product.price * quantity;
+        await cartAdd.save();
         return res.json({ message: 'Producto agregado al carrito correctamente.' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al agregar el producto.' });
     }
 });
- 
+
 // Ruta para eliminar un carrito por su ID (DELETE /api/cart/:pid)
 router.delete('/api/cart/:cid', async (req, res) => {
     try {
@@ -124,12 +110,12 @@ router.delete('/api/cart/:cid', async (req, res) => {
 
                 if (product) {
                     product.stock += cartProduct.quantity;
-                    await productModel.updateOne(product);
+                    await productModel.findByIdAndUpdate({_id: product._id}, product.stock);
                 }
             }
         }
         // Eliminar el carrito
-        await cartModel.deleteById(cid);
+        await cartModel.deleteById({_id: cid});
         res.json({ message: 'Carrito eliminado correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el Carrito.' });

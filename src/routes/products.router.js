@@ -37,24 +37,26 @@ router.post('/api/products', uploader.single('thumbnails'), async (req, res) => 
     try {
         let { title, description, code, price, stock, category } = req.body;
         if (!title || !description || !code || !price || !stock || !category) {
-            res.send({ status: "error", error: 'Todos los campos obligatorios deben ser proporcionados.' });
-        } else {
-            const thumbnailFilename = req.file ? req.file.filename : null;
-            const thumbnails = thumbnailFilename ? [thumbnailFilename] : [];
-            let result = await userModel.create({
-                title,
-                description,
-                code,
-                price,
-                status: true,
-                stock,
-                category,
-                thumbnails
-            });
-            res.send({ result: "success", payload: result });
+            return res.status(400).send({ status: "error", error: 'Todos los campos obligatorios deben ser proporcionados.' });
         }
+
+        const thumbnailFilename = req.file ? req.file.filename : null;
+        const thumbnails = thumbnailFilename ? [thumbnailFilename] : [];
+
+        // Agregar el producto en la base de datos
+        let result = await userModel.create({
+            title,
+            description,
+            code,
+            price,
+            status: true,
+            stock,
+            category,
+            thumbnails
+        });
+        res.send({ result: "success", payload: result });
     } catch (error) {
-        res.send({ status: "error", error: 'Error al agregar el producto.' });
+        res.status(500).send({ status: "error", error: 'Error al agregar el producto.' });
     }
 });
 

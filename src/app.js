@@ -56,20 +56,17 @@ io.on("connection", (socket) => {
     // Agregar y Borrar Productos
     socket.on('addProduct', async (product) => {
         try {
-                const contenedor = new Contenedor(productsJsonPath);    
-                const newProductId = await contenedor.getAll();
-                const newProduct = { id: newProductId, ...product };
-                io.emit('productAdded', newProduct);
+            // Emitir el evento a todos los clientes conectados
+            io.emit("productAdded", product);
             } catch (error) {
                 console.error('Error al agregar el producto:', error);
             }
     });
     
-    socket.on('deleteProduct', async (productId) => {
+    socket.on('deleteProduct', async (deletedProductId) => {
         try {
-            const contenedor = new Contenedor(productsJsonPath);
-            await contenedor.deleteById(productId);
-            io.emit('productDeleted', productId);
+            // Emitir el evento a todos los clientes conectados
+            io.emit('productDeleted', deletedProductId);
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }

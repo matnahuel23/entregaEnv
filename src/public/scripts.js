@@ -69,6 +69,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
         });
 
         if (response.ok) {
+            socket.emit('deleteProduct', deleteId);
             Swal.fire({
                 icon: "success",
                 title: "Producto eliminado",

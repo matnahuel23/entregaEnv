@@ -31,8 +31,9 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
         if (response.ok) {
             const responseBody = await response.json();  // Parse the JSON response
-            const newProduct = responseBody.product;
-            socket.emit('addProduct', newProduct);
+            if (responseBody.result === "success"){
+                const newProduct = responseBody.payload; 
+                socket.emit('addProduct', newProduct);
             Swal.fire({
                 icon: "success",
                 title: "Producto agregado",
@@ -51,7 +52,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
                 text: "No se pudo agregar el producto. Por favor, verifica los campos y vuelve a intentarlo."
             });
         }
-    } catch (error) {
+    }}catch (error) {
         console.error("Error al agregar el producto:", error);
     }
 });
@@ -73,6 +74,7 @@ document.getElementById("delete-form").addEventListener("submit", async (e) => {
                 title: "Producto eliminado",
                 text: `El producto con ID ${deleteId} ha sido eliminado exitosamente`,
             });
+            document.getElementById('delete-id').value = "";
         } else {
             Swal.fire({
                 icon: "error",

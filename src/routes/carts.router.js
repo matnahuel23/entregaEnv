@@ -95,30 +95,24 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
 router.delete('/api/cart/:cid', async (req, res) => {
     try {
         const cid = req.params.cid;
-        const cartToDelete = await cartModel.findById({_id: cid});
+        const cartToRemove = await cartModel.findOne({ _id: cid });
 
-        if (!cartToDelete) {
-            return res.status(404).json({ error: 'Carrito no encontrado.' });
+        if (!cartToRemove) {
+            return res.status(404).json({ status: "error", error: 'Carrito no encontrado' });
         }
 
-        // Si el carrito tiene productos, ajustar el stock de los productos correspondientes
-        if (cartToDelete.products.length > 0) {
-            const products = await productModel.find();
-            
-            for (const cartProduct of cartToDelete.products) {
-                const product = products.find((p) => p.id === cartProduct.pId);
-
-                if (product) {
-                    product.stock += cartProduct.quantity;
-                    await productModel.findByIdAndUpdate({_id: product._id}, product.stock);
-                }
-            }
+        // Devolver las cantidades de productos al stock
+        for (const cartProduct of cartToRemove.products) {
+            const product = await productModel.findById(cartProduct.product);
+            const quantity = cartProduct.quantity;
+            product.stock += quantity;
+            await product.save();
+            console.log(`Stock del producto ${product._id} actualizado: ${product.stock}`);
         }
-        // Eliminar el carrito
-        await cartModel.deleteById({_id: cid});
-        res.json({ message: 'Carrito eliminado correctamente.' });
+        await cartToRemove.deleteOne({_id: cid})
+        return res.json({ message: 'Carrito eliminado y cantidades de productos devueltas al stock correctamente.' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el Carrito.' });
+        return res.status(500).json({ message: 'Error al eliminar el carrito.' });
     }
 });
 
@@ -139,7 +133,7 @@ router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
             return res.status(404).json({ error: 'Carrito no encontrado.' });
         }
 
-        const productIndex = cart.products.findIndex((item) => item.pId === pid);
+        const productIndex = cart.products.findIndex((item) => item.product.toString() === pid);
 
         if (productIndex === -1) {
             return res.status(404).json({ error: 'Producto no encontrado en el carrito.' });

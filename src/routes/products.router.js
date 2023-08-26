@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const uploader = require('../utils/multerUtil')
 // Mongoose
-const {userModel} = require('../models/productmodel')
+const {productModel} = require('../models/productmodel')
 
 // Array de productos
 const products = []
@@ -11,7 +11,7 @@ const products = []
 // Ruta para obtener todos los productos
 router.get('/api/products', async (req, res) => {
     try {
-        let products = await userModel.find()
+        let products = await productModel.find()
         res.send({result:"success", payload:products})
     } catch (error) {
         res.send({status:"error", error: 'Error al obtener los productos.' });
@@ -22,7 +22,7 @@ router.get('/api/products', async (req, res) => {
 router.get('/api/products/:pid', async (req, res) => {
     try {
         let {pid} = req.params;
-        let product = await userModel.find({_id: pid})
+        let product = await productModel.find({_id: pid})
         if (!product) {
              res.send({status:"error", error: 'Producto no encontrado.' });
         }
@@ -44,7 +44,7 @@ router.post('/api/products', uploader.single('thumbnails'), async (req, res) => 
         const thumbnails = thumbnailFilename ? [thumbnailFilename] : [];
 
         // Agregar el producto en la base de datos
-        let result = await userModel.create({
+        let result = await productModel.create({
             title,
             description,
             code,
@@ -69,7 +69,7 @@ router.put('/api/products/:pid', async (req, res) => {
         if (Object.keys(productToReplace).length === 0) {
             return res.send({ status:"error", error: 'Debe proporcionar al menos un campo para actualizar.' });
         }
-        let result = await userModel.updateOne({_id: pid}, productToReplace)
+        let result = await productModel.updateOne({_id: pid}, productToReplace)
         if (!result) {
             return res.send({ status:"error", error: 'Producto no encontrado.' });
         }
@@ -84,7 +84,7 @@ router.put('/api/products/:pid', async (req, res) => {
 router.delete('/api/products/:pid', async (req, res) => {
     try {
         let {pid} = req.params;
-        let result = await userModel.deleteOne({_id: pid})
+        let result = await productModel.deleteOne({_id: pid})
         res.send({ result: "success", message: 'Producto eliminado correctamente.', payload: result })      
     } catch (error) {
         res.send({ status: "error", error: 'Error al eliminar el producto.' });
@@ -93,7 +93,7 @@ router.delete('/api/products/:pid', async (req, res) => {
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
-        let products = await userModel.find()
+        let products = await productModel.find()
         const viewPath = path.join(__dirname, '../views/realtimeproducts.hbs');
         res.render(viewPath, { products });
     } catch (error) {

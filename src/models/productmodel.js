@@ -13,6 +13,6 @@ const productSchema = new mongoose.Schema({
     thumbnails:{ type: Array, required: false},
 })
 
-const userModel = mongoose.model(productCollection, productSchema)
+const productModel = mongoose.model(productCollection, productSchema)
 
-module.exports = {userModel}
+module.exports = {productModel}

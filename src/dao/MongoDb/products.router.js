@@ -94,7 +94,7 @@ router.delete('/api/products/:pid', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
     try {
         let products = await productModel.find()
-        const viewPath = path.join(__dirname, '../views/realtimeproducts.hbs');
+        const viewPath = path.join(__dirname, '../../views/realtimeproducts.hbs');
         res.render(viewPath, { products });
     } catch (error) {
         res.send({status:"error", error: 'Error al obtener los productos.' });

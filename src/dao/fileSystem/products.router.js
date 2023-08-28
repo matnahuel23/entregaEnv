@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Contenedor = require('../manager/contenedor')
-const contenedor = new Contenedor('../data/products.json')
+const Contenedor = require('../../manager/contenedor')
+const contenedor = new Contenedor('../../data/products.json')
 const path = require('path');
-const uploader = require('../utils/multerUtil')
+const uploader = require('../../utils/multerUtil')
 
 // Array de productos
 const products = []
@@ -96,7 +96,7 @@ router.delete('/api/products/:pid', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
     try {
         const products = await contenedor.getAll();
-        const viewPath = path.join(__dirname, '../views/realtimeproducts.hbs');
+        const viewPath = path.join(__dirname, '../../views/realtimeproducts.hbs');
         res.render(viewPath, { products });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener los productos.' });

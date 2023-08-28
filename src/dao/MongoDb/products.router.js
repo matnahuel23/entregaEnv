@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const uploader = require('../utils/multerUtil')
+const uploader = require('../../utils/multerUtil')
 // Mongoose
-const {productModel} = require('../models/productmodel')
+const {productModel} = require('../../models/productmodel')
 
 // Array de productos
 const products = []

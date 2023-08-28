@@ -1,12 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Contenedor = require('../manager/contenedor')
-const contenedor = new Contenedor('../data/carts.json')
-const productContenedor = new Contenedor('../data/products.json');
-const path = require('path');
-const { Console } = require('console');
-const {cartModel} = require('../models/cartmodel')
-const {productModel} = require('../models/productmodel')
+const {cartModel} = require('../../models/cartmodel')
+const {productModel} = require('../../models/productmodel')
 
 // Array de carritos
 const cart = []

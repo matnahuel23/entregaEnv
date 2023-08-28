@@ -14,9 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 //Routes
-const productsRouter = require('./routes/products.router')
-const cartsRouter = require('./routes/carts.router')
-const chatRouter = require('./routes/chat.router')
+const productsRouter = require('./dao/MongoDb/products.router')
+const cartsRouter = require('./dao/MongoDb/carts.router')
+const chatRouter = require('./dao/MongoDb/chat.router')
 //Mongoose*************************************************/
 const mongoose = require('mongoose')
 //*********************************************************/

@@ -79,17 +79,16 @@ router.post('/api/cart/:cid/product/:pid', async (req, res) => {
             cartAdd.products.push({ product: pid, quantity });
         }
         cartAdd.markModified('products');
-        await cartAdd.save();
-        // Actualiza el stock del producto y el total del carrito
-        product.stock -= quantity;
-        await product.save();
-        cartAdd.total += product.price * quantity;
-        await cartAdd.save();
+        await cartModel.updateOne({ _id: cid }, cartAdd);
+        await productModel.updateOne({ _id: pid }, { $inc: { stock: -quantity } });
+        // Actualiza el total del carrito
+        await cartModel.updateOne({ _id: cid }, { $inc: { total: product.price * quantity } });
         return res.json({ message: 'Producto agregado al carrito correctamente.' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al agregar el producto.' });
     }
 });
+
 
 // Ruta para eliminar un carrito por su ID (DELETE /api/cart/:pid)
 router.delete('/api/cart/:cid', async (req, res) => {
@@ -105,11 +104,14 @@ router.delete('/api/cart/:cid', async (req, res) => {
         for (const cartProduct of cartToRemove.products) {
             const product = await productModel.findById(cartProduct.product);
             const quantity = cartProduct.quantity;
-            product.stock += quantity;
-            await product.save();
-            console.log(`Stock del producto ${product._id} actualizado: ${product.stock}`);
+
+            await productModel.updateOne(
+                { _id: product._id },
+                { $inc: { stock: quantity } }
+            );
         }
-        await cartToRemove.deleteOne({_id: cid})
+
+        await cartModel.deleteOne({ _id: cid });
         return res.json({ message: 'Carrito eliminado y cantidades de productos devueltas al stock correctamente.' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al eliminar el carrito.' });
@@ -164,14 +166,15 @@ router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
             cart.products.splice(productIndex, 1);
         }
 
-        // Guardo los cambios
-        await product.save();
-        await cart.save();
+        await productModel.updateOne({ _id: pid }, { stock: product.stock });
+        await cartModel.updateOne({ _id: cid }, cart);
+
         res.json({ message: 'Producto eliminado del carrito correctamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
     }
 });
+
 
 
 //exporto el router

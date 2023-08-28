@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
     stock:{ type: Number, required: true, max:100 },
     category:{ type: String, required: true },
     thumbnails:{ type: Array, required: false},
-})
+},{ versionKey: false });
 
 const productModel = mongoose.model(productCollection, productSchema)
 

@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
 })
 
 //mongoose**********************************/
-mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority')
 .then(()=>{
     console.log("Conectado a la BD de Mongo Atlas")
 })

@@ -37,10 +37,10 @@ http://localhost:8080/api/cart/64ecba4c87d8ed151354846a/product/64eb59607130eb4f
 }
 
 
-![ingreso de producto en http://localhost:8080/](../consolidado/src/public/prints/localhost%20de%20ingreso.jpg)
-![eliminacion de producto en http://localhost:8080/](../consolidado/src/public/prints/localhost%20de%20eliminacion.jpg)
-![postman producto](../consolidado/src/public/prints/postProduct.jpgg)
-![postman cart](../consolidado/src/public/prints/postCart.jpg)
-![postman cart con producto y cantidad](../consolidado/src/public/prints/postCartProduct.jpg)
-![visualizacion de productos agregados en tiempo real](../consolidado/src/public/prints/localhost%208080%20realtimeproducts.jpg)
-![chat](../consolidado/src/public/prints/chat%20.jpg)
+![ingreso de producto en http://localhost:8080/](src/public/prints/localhost%20de%20ingreso.jpg)
+![eliminacion de producto en http://localhost:8080/](src/public/prints/localhost%20de%20eliminacion.jpg)
+![postman producto](src/public/prints/postProduct.jpgg)
+![postman cart](src/public/prints/postCart.jpg)
+![postman cart con producto y cantidad](src/public/prints/postCartProduct.jpg)
+![visualizacion de productos agregados en tiempo real](src/public/prints/localhost%208080%20realtimeproducts.jpg)
+![chat](src/public/prints/chat%20.jpg)

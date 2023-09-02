@@ -47,7 +47,7 @@ router.post('/api/cart', async (req, res) => {
 });
 
 // Ruta para agregar uno o varios productos a un carrito existente
-router.post('/api/cart/:cid/product/:pid', async (req, res) => {
+router.put('/api/cart/:cid/product/:pid', async (req, res) => {
     try {
         const cid = req.params.cid;
         const pid = req.params.pid;

@@ -11,29 +11,46 @@ const products = []
 // Ruta para obtener todos los productos con filtros
 router.get('/api/products', async (req, res) => {
     try {
-        const { sort, category, status, page, limit} = req.query;
+        const { sort, category, status, page, limit } = req.query;
+        
         // Parsea el valor de sort a un número entero
-        const priceSort = sort ? parseInt(sort) : 1; 
-        // Definir la consulta de agregación con la etapa $sort
-        const aggregationPipeline = [
-            {
-                $match: {}
-            },
-            {
-                $sort: { price: priceSort }
-            }
-        ];
-        // Agrega la etapa $match si se proporciona una categoría
+        const priceSort = sort ? parseInt(sort) : 1;
+
+        // Define las condiciones de búsqueda
+        const conditions = {};
+
+        // Agrega la condición de filtrado por categoría si se proporciona
         if (category) {
-            aggregationPipeline[0].$match.category = category;
+            conditions.category = category;
         }
-         // Agrega la etapa $match para filtrar por status si se proporciona
-         if (status !== undefined) {
-            aggregationPipeline[0].$match.status = status === 'true'; // Convierte el valor a booleano
+
+        // Agrega la condición de filtrado por status si se proporciona
+        if (status !== undefined) {
+            conditions.status = status === 'true'; // Convierte el valor a booleano
         }
-        // Ejecutar la consulta de agregación
-        let products = await productModel.aggregate(aggregationPipeline).exec()
-        res.send({ result: "success", payload: products });
+
+        // Realiza la consulta utilizando paginate()
+        const options = {
+            page: page || 1, // Página actual
+            limit: limit || 10, // Cantidad de resultados por página
+            sort: { price: priceSort }, // Ordenar por precio
+        };
+
+        const products = await productModel.paginate(conditions, options);
+
+        res.send({
+            status: "success",
+            payload: products.docs,
+            totalDocs: products.totalDocs,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink: products.prevPage ? `/api/products?page=${products.prevPage}&limit=${limit}` : null,
+            nextLink: products.nextPage ? `/api/products?page=${products.nextPage}&limit=${limit}` : null,
+        });
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });
     }

@@ -20,7 +20,7 @@ router.get('/api/cart', async (req, res) => {
 router.get('/api/cart/:cid', async (req, res) => {
     try {
         let {cid} = req.params;
-        let cart = await cartModel.findById({_id: cid})
+        let cart = await cartModel.findById({_id: cid}).populate('products.product'); // Utiliza populate
         if (!cart) {
            res.send({status:"error", error: 'Carrito no encontrado.' });
         }

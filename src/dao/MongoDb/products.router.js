@@ -11,7 +11,7 @@ const products = []
 // Ruta para obtener todos los productos con filtros
 router.get('/api/products', async (req, res) => {
     try {
-        const { sort, category} = req.query;
+        const { sort, category, status} = req.query;
         
         const priceSort = sort ? parseInt(sort) : 1; // Parsea el valor de sort a un número entero
 
@@ -24,10 +24,14 @@ router.get('/api/products', async (req, res) => {
                 $sort: { price: priceSort }
             }
         ];
-        
+
         // Agrega la etapa $match si se proporciona una categoría
         if (category) {
             aggregationPipeline[0].$match.category = category;
+        }
+         // Agrega la etapa $match para filtrar por status si se proporciona
+         if (status !== undefined) {
+            aggregationPipeline[0].$match.status = status === 'true'; // Convierte el valor a booleano
         }
 
         // Ejecutar la consulta de agregación

@@ -4,13 +4,12 @@ const path = require('path');
 const { Server } = require('socket.io');
 const handlebars = require('express-handlebars');
 const Contenedor = require('./manager/contenedor');
-const PORT = process.env.PORT || 8080;
-
 const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const { productModel } = require('./models/productmodel');
+const PORT = process.env.PORT || 8080;
 //Routes
 const productsRouter = require('./dao/MongoDb/products.router')
 const cartsRouter = require('./dao/MongoDb/carts.router')
@@ -18,7 +17,6 @@ const chatRouter = require('./dao/MongoDb/chat.router')
 //Mongoose*************************************************/
 const mongoose = require('mongoose')
 //*********************************************************/
-
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "handlebars");
@@ -102,14 +100,17 @@ io.on("connection", (socket) => {
 })
 
 //mongoose**********************************/
-mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority')
-.then(()=>{
-    console.log("Conectado a la BD de Mongo Atlas")
-})
-.catch(error=>{
-    console.error("Error en la conexión", error)
-})
+const environment = async () => {
+    try {
+        await mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority');
+        console.log("Conectado a la BD de Mongo Atlas")
+    } catch (error) {
+        console.error("Error en la conexión", error);
+    }
+};
+
+environment();
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-})
+});

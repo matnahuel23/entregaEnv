@@ -8,15 +8,30 @@ const {productModel} = require('../../models/productmodel')
 // Array de productos
 const products = []
 
-// Ruta para obtener todos los productos
+// Ruta para obtener todos los productos con filtros
 router.get('/api/products', async (req, res) => {
     try {
-        let products = await productModel.find()
-        res.send({result:"success", payload:products})
+        const { sort } = req.query;
+        
+        const priceSort = sort ? parseInt(sort) : 1; // Parsea el valor de sort a un número entero
+
+        // Definir la consulta de agregación con la etapa $sort
+        const aggregationPipeline = [
+            {
+                $sort: { price: priceSort }
+            }
+        ];
+
+        // Ejecutar la consulta de agregación
+        let products = await productModel.aggregate(aggregationPipeline).exec();
+        res.send({ result: "success", payload: products });
     } catch (error) {
-        res.send({status:"error", error: 'Error al obtener los productos.' });
+        res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });
     }
 });
+
+
+
 
 // Ruta para obtener un producto por id
 router.get('/api/products/:pid', async (req, res) => {

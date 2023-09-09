@@ -1,13 +1,11 @@
 const express = require('express');
 const http = require('http');
-const socketIo = require('socket.io');
 const path = require('path');
 const { Server } = require('socket.io');
 const handlebars = require('express-handlebars');
-const Swal = require('sweetalert2');
 const Contenedor = require('./manager/contenedor');
+const PORT = process.env.PORT || 8080;
 
-const productsJsonPath = path.join(__dirname, 'data', 'products.json');
 const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
 
 const app = express();
@@ -111,9 +109,7 @@ mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.
 .catch(error=>{
     console.error("Error en la conexión", error)
 })
-/*******************************************/
 
-const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })

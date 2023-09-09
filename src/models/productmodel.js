@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     code:{ type: Number, required: true},
     price:{ type: Number, required: true },
     status:{ type: Boolean, required: true },
-    stock:{ type: Number, required: true, max:100 },
+    stock:{ type: Number, required: true},
     category:{ type: String, enum: ["gaseosa", "vino", "cerveza"], default: "gaseosa", required: true },
     thumbnails:{ type: Array, required: false},
 },{ versionKey: false });

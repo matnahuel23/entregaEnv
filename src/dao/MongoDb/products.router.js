@@ -94,7 +94,7 @@ router.post('/api/products', uploader.single('thumbnails'), async (req, res) => 
         });
         res.send({ result: "success", payload: result });
     } catch (error) {
-        res.status(500).send({ status: "error", error: 'Error al agregar el producto.' });
+        res.status(500).send({ status: "error", error: 'Error al agregar el producto. Detalles: ' + error.message });
     }
 });
 

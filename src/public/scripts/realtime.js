@@ -15,7 +15,6 @@ function findRowByProductId(productId) {
     return null; // Si no se encuentra la fila
 }
 
-
 async function loadProducts() {
     try {
         const response = await fetch('/api/products');

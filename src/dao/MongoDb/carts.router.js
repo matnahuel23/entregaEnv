@@ -84,7 +84,6 @@ router.put('/api/cart/:cid/product/:pid', async (req, res) => {
     }
 });
 
-
 // Ruta para eliminar un carrito por su ID (DELETE /api/cart/:pid)
 router.delete('/api/cart/:cid', async (req, res) => {
     try {
@@ -169,8 +168,6 @@ router.delete('/api/cart/:cid/product/:pid', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el producto del carrito.' });
     }
 });
-
-
 
 //exporto el router
 module.exports = {router};

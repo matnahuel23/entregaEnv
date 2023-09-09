@@ -22,7 +22,7 @@ http://localhost:8080/api/products
     "code": 25,
     "price": 77 ,
     "stock": 77,
-    "category": "ProductoCateg"
+    "category": "gaseosa"
 }
 
 Cart POST

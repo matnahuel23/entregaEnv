@@ -11,10 +11,9 @@ const products = []
 // Ruta para obtener todos los productos con filtros
 router.get('/api/products', async (req, res) => {
     try {
-        const { sort, category, status} = req.query;
-        
-        const priceSort = sort ? parseInt(sort) : 1; // Parsea el valor de sort a un número entero
-
+        const { sort, category, status, page, limit} = req.query;
+        // Parsea el valor de sort a un número entero
+        const priceSort = sort ? parseInt(sort) : 1; 
         // Definir la consulta de agregación con la etapa $sort
         const aggregationPipeline = [
             {
@@ -24,7 +23,6 @@ router.get('/api/products', async (req, res) => {
                 $sort: { price: priceSort }
             }
         ];
-
         // Agrega la etapa $match si se proporciona una categoría
         if (category) {
             aggregationPipeline[0].$match.category = category;
@@ -33,9 +31,8 @@ router.get('/api/products', async (req, res) => {
          if (status !== undefined) {
             aggregationPipeline[0].$match.status = status === 'true'; // Convierte el valor a booleano
         }
-
         // Ejecutar la consulta de agregación
-        let products = await productModel.aggregate(aggregationPipeline).exec();
+        let products = await productModel.aggregate(aggregationPipeline).exec()
         res.send({ result: "success", payload: products });
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });

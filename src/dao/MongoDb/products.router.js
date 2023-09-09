@@ -11,16 +11,24 @@ const products = []
 // Ruta para obtener todos los productos con filtros
 router.get('/api/products', async (req, res) => {
     try {
-        const { sort } = req.query;
+        const { sort, category} = req.query;
         
         const priceSort = sort ? parseInt(sort) : 1; // Parsea el valor de sort a un número entero
 
         // Definir la consulta de agregación con la etapa $sort
         const aggregationPipeline = [
             {
+                $match: {}
+            },
+            {
                 $sort: { price: priceSort }
             }
         ];
+        
+        // Agrega la etapa $match si se proporciona una categoría
+        if (category) {
+            aggregationPipeline[0].$match.category = category;
+        }
 
         // Ejecutar la consulta de agregación
         let products = await productModel.aggregate(aggregationPipeline).exec();
@@ -29,9 +37,6 @@ router.get('/api/products', async (req, res) => {
         res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });
     }
 });
-
-
-
 
 // Ruta para obtener un producto por id
 router.get('/api/products/:pid', async (req, res) => {

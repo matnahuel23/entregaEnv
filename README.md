@@ -1,17 +1,19 @@
 http://localhost:8080/
-es donde gestiono el ingreso de productos con ingreso de imagen/optativa usando multer. Se puede eliminar 1 producto con su id que genera MongoDb 
+es donde gestiono el ingreso de productos con ingreso de imagen/optativa usando multer. Se puede eliminar el producto con su id que genera MongoDb 
 Quedan guardados en BD.
+![ingreso al stock HBS en http://localhost:8080/](src/public/prints/ingreso%20hbs.jpg)
 
-En el carrito si le agrego un producto este se descuenta stock del producto y tiene el valor total de los productos, y si lo elimino los productos que estaban en el carrito vuelven al stock del producto que este tenia. El carrito se guarda en BD
+http://localhost:8080/products
+es donde se ven todos los productos que estan en el Inventario, al agregar productos en este caso se agregaran a un carrito fijo: 64fe00e848bf8c0028d9a31d, esto lo cambiare a futuro. Los productos se descuentan del stock y se suman a la cantidad de ese producto en el carrito. A su vez estan los filtros por Categoria: en este caso tengo 3(gaseosa, vino, cerveza) y por estado: true o false, aunque estan todos en true por ahora.Tambien se puede ordenar en forma asc o desc segun precio. Para poner varios filtros puse un boton aplicar filtros
+![ingreso al carrito HBS 1 en http://localhost:8080/products](src/public/prints/stock%20hbs1.jpg)
+![ingreso al carrito HBS 2 en http://localhost:8080/products](src/public/prints/stock%20hbs2.jpg)
 
-http://localhost:8080/realtimeproducts
-puedo ver los productos generados online con socket
+http://localhost:8080/cart/64fe00e848bf8c0028d9a31d
+El carrito esta precargado con cid: 64fe00e848bf8c0028d9a31d en esta vista se ven los productos que tiene ese cart en particular, con el boton eliminar se pueden eliminar productos, los cuales van volviendo a su stock original. Abajo a la derecha hay un boton con el total, aun ese boton no hace nada, lo cambiare a futuro.
+![carrito en http://localhost:8080/cart/64fe00e848bf8c0028d9a31d](src/public/prints/cart.jpg)
 
 http://localhost:8080/chat
 si entran varios usuarios pueden chatear
-
-
-Ejemplos de JSON que use en postman
 
 Producto POST
 http://localhost:8080/api/products

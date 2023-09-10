@@ -7,16 +7,38 @@
 <body>
     <div class="container">
         <h1 class="mt-5 mb-4">Productos en Stock</h1>
-        <!-- Filtros por Categoría y Estado -->
+        <!-- Filtros por Categoría -->
         <div class="mb-3">
             <label for="categoryFilter">Filtrar por Categoría:</label>
-            <select id="categoryFilter" class="form-control" onchange="applyFilters()">
+            <select id="categoryFilter" class="form-control">
                 <option value="">Todas las categorías</option>
                 <option value="gaseosa">Gaseosa</option>
                 <option value="vino">Vino</option>
                 <option value="cerveza">Cerveza</option>
-                <option value="todo">Todo</option>
+                <option value="">Todo</option>
             </select>
+        </div>
+        <!-- Filtros por Estado -->
+        <div class="mb-3">
+            <label for="statusFilter">Filtrar por Estado:</label>
+            <select id="statusFilter" class="form-control">
+                <option value="">Todos los estados</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+        </div>
+        <!-- Ordenar por Precio -->
+        <div class="mb-3">
+            <label for="priceSort">Ordenar por Precio:</label>
+            <select id="priceSort" class="form-control">
+                <option value="">Todos</option>
+                <option value="1">Menor a Mayor</option>
+                <option value="-1">Mayor a Menor</option>
+            </select>
+        </div>
+        <!-- Aplicar -->
+        <div class="mb-3">
+            <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
         </div>
         <div class="row">
             {{#each products.docs}}
@@ -43,6 +65,16 @@
             <p>Página {{products.page}} de {{products.totalPages}}</p>
             <p>Total de productos: {{products.totalDocs}}</p>
         </div>
+        <!-- Mostrar Cantidad de Productos por Página -->
+        <div class="mb-3">
+            <label for="perPage">Mostrar:</label>
+            <select id="perPage" class="form-control">
+                <option value="">Productos</option>
+                <option value="12">12 Productos</option>
+                <option value="6">6 Productos</option>
+                <option value="2">2 Productos</option>
+            </select>
+        </div>
          <!-- Botones de Paginación -->
         <div>
             {{#if products.hasPrevPage}}
@@ -54,7 +86,7 @@
             {{/if}}
         </div>
     </div>
-
+    <script src="/scripts/productscript.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

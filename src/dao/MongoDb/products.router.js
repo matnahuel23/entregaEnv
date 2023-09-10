@@ -37,22 +37,25 @@ router.get('/api/products', async (req, res) => {
         };
 
         const products = await productModel.paginate(conditions, options);
-
+        res.send({result: "sucess", payload: products})
+        /*
         res.send({
-            status: "success",
-            payload: products.docs,
-            totalDocs: products.totalDocs,
-            totalPages: products.totalPages,
-            prevPage: products.prevPage,
-            nextPage: products.nextPage,
-            page: products.page,
-            hasPrevPage: products.hasPrevPage,
-            hasNextPage: products.hasNextPage,
             prevLink: products.prevPage ? `/api/products?page=${products.prevPage}&limit=${limit}` : null,
             nextLink: products.nextPage ? `/api/products?page=${products.nextPage}&limit=${limit}` : null,
-        });
+        }); 
+        */
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });
+    }
+});
+
+router.get('/products', async (req, res) => {
+    try {
+        let productsInStock = await productModel.find({ stock: { $gt: 0 } }); // Filtra los productos con stock mayor que 0
+        const viewPath = path.join(__dirname, '../../views/products.hbs');
+        res.render(viewPath, { productsInStock })
+    } catch (error) {
+        res.status(500).send({ status: "error", error: 'Error al obtener los productos en stock. Detalles: ' + error.message });
     }
 });
 

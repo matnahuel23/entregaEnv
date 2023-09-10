@@ -26,13 +26,17 @@
             <label for="description">Descripción</label>
             <input type="text" name="description" id="description" required>
             <label for="code">Código del Producto</label>
-            <input type="number" name="code" id="code" required>
+            <input type="number" name="code" id="code" required min="0">
             <label for="price">Precio</label>
-            <input type="number" name="price" id="price" required>
+            <input type="number" name="price" id="price" required min="0">
             <label for="stock">Cantidad en Stock</label>
-            <input type="number" name="stock" id="stock" required>
+            <input type="number" name="stock" id="stock" required min="0">
             <label for="category">Categoría</label>
-            <input type="text" name="category" id="category" required>
+            <select name="category" id="category" required>
+                <option value="gaseosa">Gaseosa</option>
+                <option value="vino">Vino</option>
+                <option value="cerveza">Cerveza</option>
+            </select>
             <label for="thumbnails">Imagen</label>
             <input type="file" name="thumbnails" id="thumbnails">
             <button type="submit">Agregar Producto</button>

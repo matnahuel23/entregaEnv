@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos en Stock</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Mi Carrito</h1>
+        <div class="row">
+            {{#each cart}}
+                {{#each this.products}}
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="/img/{{this.product.thumbnails.[0]}}" class="card-img-top" alt="{{this.product.title}}" style="width: 250px; height: 250px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{this.product.title}}</h5>
+                                <p class="card-text">Precio: ${{this.product.price}}</p>
+                                <p class="card-text">Cantidad: {{this.quantity}}</p>
+                                <!-- Botones para agregar/quitar del carrito -->
+                                <div>
+                                    <form id="deleteToCartForm-{{this.product._id}}" action="/api/cart/{{../_id}}/product/{{this.product._id}}" method="DELETE">
+                                        <input type="number" name="quantity" placeholder="Cantidad" min="1" value="1" max="{{this.quantity}}">
+                                        <button class="btn btn-warning" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            {{/each}}
+        </div>
+        <div class="text-right">                            
+            <button class="btn btn-success" type="submit">TOTAL: ${{total}}</button>
+        </div>
+
+    </div>
+    <script src="/scripts/productscript.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

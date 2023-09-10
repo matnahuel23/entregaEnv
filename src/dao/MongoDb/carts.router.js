@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const {cartModel} = require('../../models/cartmodel')
 const {productModel} = require('../../models/productmodel')
 
@@ -15,6 +16,26 @@ router.get('/api/cart', async (req, res) => {
         res.send({status:"error", error: 'Error al obtener los carritos.' });
     }
 });
+
+// Ruta para la vista .HBS
+router.get('/cart/:cartId', async (req, res) => {
+    try {
+        const { cartId } = req.params;
+        const cart = await cartModel.findById(cartId).populate('products.product');
+        if (!cart) {
+            return res.status(404).send({ status: 'error', error: 'Carrito no encontrado.' });
+        }
+        let total = 0;
+        for (const item of cart.products) {
+            total += item.product.price * item.quantity;
+        }
+        const viewPath = path.join(__dirname, '../../views/cart.hbs');
+        res.render(viewPath, { cart, total });
+    } catch (error) {
+        res.status(500).send({ status: 'error', error: 'Error al obtener el carrito.' });
+    }
+});
+
 
 // Ruta para obtener un carrito por id
 router.get('/api/cart/:cid', async (req, res) => {

@@ -42,6 +42,7 @@ router.get('/api/products', async (req, res) => {
     }
 });
 
+// Ruta para la vista HBS
 router.get('/products', async (req, res) => {
     try {
         const { sort, category, status, page, limit } = req.query;

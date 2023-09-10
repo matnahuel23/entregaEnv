@@ -16,7 +16,6 @@
                 <option value="gaseosa">Gaseosa</option>
                 <option value="vino">Vino</option>
                 <option value="cerveza">Cerveza</option>
-                <option value="">Todo</option>
             </select>
         </div>
         <!-- Filtros por Estado -->
@@ -54,8 +53,8 @@
                         <div>
                         <!-- <form id="addToCartForm-{{this._id}}" action="/api/cart/{{cartId}}/product/{{this._id}}" method="PUT"> -->
                         <form id="addToCartForm-{{this._id}}" action="/api/cart/64fe00e848bf8c0028d9a31d/product/{{this._id}}" method="PUT">
+                            <input type="number" name="quantity" placeholder="Cantidad" min="1" value="1" max="{{this.stock}}">
                             <button class="btn btn-success" type="submit">Agregar</button>
-                            <input type="number" name="quantity" placeholder="Cantidad" min="1" value="1">
                         </form>
                         </div>
                     </div>

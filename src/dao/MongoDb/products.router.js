@@ -53,7 +53,7 @@ router.get('/products', async (req, res) => {
     try {
         let productsInStock = await productModel.find({ stock: { $gt: 0 } }); // Filtra los productos con stock mayor que 0
         const viewPath = path.join(__dirname, '../../views/products.hbs');
-        res.render(viewPath, { productsInStock })
+        res.render(viewPath, { products: productsInStock })
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al obtener los productos en stock. Detalles: ' + error.message });
     }

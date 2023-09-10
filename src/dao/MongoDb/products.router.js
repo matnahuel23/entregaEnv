@@ -51,7 +51,7 @@ router.get('/api/products', async (req, res) => {
 
 router.get('/products', async (req, res) => {
     try {
-        let productsInStock = await productModel.find({ stock: { $gt: 0 } }); // Filtra los productos con stock mayor que 0
+        let productsInStock = await productModel.find({ stock: { $gt: 0 } });
         const viewPath = path.join(__dirname, '../../views/products.hbs');
         res.render(viewPath, { products: productsInStock })
     } catch (error) {

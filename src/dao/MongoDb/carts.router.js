@@ -42,7 +42,7 @@ router.post('/api/cart', async (req, res) => {
         });
         res.send({ result: "success", payload: result });
     } catch (error) {
-        res.status(500).send({ status: "error", error: 'Error al agregar el carritp.' });
+        res.status(500).send({ status: "error", error: 'Error al agregar el carrito.' });
     }
 });
 

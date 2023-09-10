@@ -55,7 +55,7 @@ router.get('/products', async (req, res) => {
         }
         const options = {
             page: page || 1,
-            limit: limit || 10,
+            limit: limit || 12, // puse 12 en lugar de 10 para verlo mas prolijo, ya que los acomodo de a 3
             sort: { price: priceSort },
         };
         let products = await productModel.paginate(conditions, options);

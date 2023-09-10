@@ -7,8 +7,19 @@
 <body>
     <div class="container">
         <h1 class="mt-5 mb-4">Productos en Stock</h1>
+        <!-- Filtros por Categoría y Estado -->
+        <div class="mb-3">
+            <label for="categoryFilter">Filtrar por Categoría:</label>
+            <select id="categoryFilter" class="form-control" onchange="applyFilters()">
+                <option value="">Todas las categorías</option>
+                <option value="gaseosa">Gaseosa</option>
+                <option value="vino">Vino</option>
+                <option value="cerveza">Cerveza</option>
+                <option value="todo">Todo</option>
+            </select>
+        </div>
         <div class="row">
-            {{#each products}}
+            {{#each products.docs}}
             <div class="col-md-4">
                 <div class="card mb-4">
                     <img src="/img/{{this.thumbnails.[0]}}" class="card-img-top" alt="{{this.title}}" style="width: 250px; height: 250px;">
@@ -16,14 +27,37 @@
                         <h5 class="card-title">{{this.title}}</h5>
                         <p class="card-text">Precio: ${{this.price}}</p>
                         <p class="card-text">Stock: {{this.stock}}</p>
+                         <!-- Botones para agregar/quitar del carrito -->
+                        <div>
+                            <button class="btn btn-primary" onclick="addToCart('{{this.stock}}')">+</button>
+                            <button class="btn btn-danger" onclick="removeFromCart('{{this.stock}}')">-</button>
+                        </div>
                     </div>
                 </div>
             </div>
             {{/each}}
         </div>
+
+        <!-- Información de Paginación -->
+        <div>
+            <p>Página {{products.page}} de {{products.totalPages}}</p>
+            <p>Total de productos: {{products.totalDocs}}</p>
+        </div>
+         <!-- Botones de Paginación -->
+        <div>
+            {{#if products.hasPrevPage}}
+                <a href="?page={{products.prevPage}}&limit={{products.limit}}" class="btn btn-primary">Página Anterior</a>
+            {{/if}}
+            
+            {{#if products.hasNextPage}}
+                <a href="?page={{products.nextPage}}&limit={{products.limit}}" class="btn btn-primary">Página Siguiente</a>
+            {{/if}}
+        </div>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

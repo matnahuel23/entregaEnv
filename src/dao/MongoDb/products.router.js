@@ -35,15 +35,8 @@ router.get('/api/products', async (req, res) => {
             limit: limit || 10, // Cantidad de resultados por página
             sort: { price: priceSort }, // Ordenar por precio
         };
-
         const products = await productModel.paginate(conditions, options);
         res.send({result: "sucess", payload: products})
-        /*
-        res.send({
-            prevLink: products.prevPage ? `/api/products?page=${products.prevPage}&limit=${limit}` : null,
-            nextLink: products.nextPage ? `/api/products?page=${products.nextPage}&limit=${limit}` : null,
-        }); 
-        */
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al mostrar productos. Detalles: ' + error.message });
     }
@@ -51,11 +44,25 @@ router.get('/api/products', async (req, res) => {
 
 router.get('/products', async (req, res) => {
     try {
-        let productsInStock = await productModel.find({ stock: { $gt: 0 } });
+        const { sort, category, status, page, limit } = req.query;
+        const priceSort = sort ? parseInt(sort) : 1;
+        const conditions = {};
+        if (category) {
+            conditions.category = category;
+        }
+        if (status !== undefined) {
+            conditions.status = status === 'true';
+        }
+        const options = {
+            page: page || 1,
+            limit: limit || 10,
+            sort: { price: priceSort },
+        };
+        let products = await productModel.paginate(conditions, options);
         const viewPath = path.join(__dirname, '../../views/products.hbs');
-        res.render(viewPath, { products: productsInStock })
+        res.render(viewPath, { products})
     } catch (error) {
-        res.status(500).send({ status: "error", error: 'Error al obtener los productos en stock. Detalles: ' + error.message });
+        res.status(500).send({ status: "error", error: 'Error al obtener los productos. Detalles: ' + error.message });
     }
 });
 

@@ -48,3 +48,61 @@ function applyFilters() {
     // Redireccionar a la nueva URL con los filtros aplicados
     window.location.href = url;
 }
+
+// Agrega un producto al carrito
+document.querySelectorAll('form[id^="addToCartForm-"]').forEach(function (form) {
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const formId = this.id; // Obtén el ID completo del formulario
+        const productIdFromFormId = formId.replace("addToCartForm-", "");
+        const quantityInput = this.querySelector('input[name="quantity"]');
+        const quantity = parseInt(quantityInput.value);
+
+        if (isNaN(quantity) || quantity <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La cantidad debe ser un número mayor que 0.',
+                timer: 2000
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/cart/64fe00e848bf8c0028d9a31d/product/${productIdFromFormId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quantity: quantity })
+            });
+
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Éxito',
+                    text: 'Producto agregado al carrito correctamente.',
+                    timer: 2000
+                });
+                // Espera 2 segundos antes de recargar la página
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al agregar el producto.',
+                    timer: 2000
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un error al agregar el producto.',
+                timer: 2000
+            });
+        }
+    });
+});

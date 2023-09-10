@@ -3,6 +3,7 @@
 <head>
     <title>Productos en Stock</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -51,9 +52,11 @@
                         <p class="card-text">Stock: {{this.stock}}</p>
                          <!-- Botones para agregar/quitar del carrito -->
                         <div>
-                            <button class="btn btn-danger" onclick="removeFromCart('{{this.stock}}')">-</button>
-                            <button class="btn btn-primary" onclick="addToCart('{{this.stock}}')">+</button>
-                            <button class="btn btn-success" onclick="">Agregar</button>
+                        <!-- <form id="addToCartForm-{{this._id}}" action="/api/cart/{{cartId}}/product/{{this._id}}" method="PUT"> -->
+                        <form id="addToCartForm-{{this._id}}" action="/api/cart/64fe00e848bf8c0028d9a31d/product/{{this._id}}" method="PUT">
+                            <button class="btn btn-success" type="submit">Agregar</button>
+                            <input type="number" name="quantity" placeholder="Cantidad" min="1" value="1">
+                        </form>
                         </div>
                     </div>
                 </div>

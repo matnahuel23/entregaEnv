@@ -36,7 +36,6 @@ router.get('/cart/:cartId', async (req, res) => {
     }
 });
 
-
 // Ruta para obtener un carrito por id
 router.get('/api/cart/:cid', async (req, res) => {
     try {
@@ -102,6 +101,62 @@ router.put('/api/cart/:cid/product/:pid', async (req, res) => {
         return res.json({ message: 'Producto agregado al carrito correctamente.' });
     } catch (error) {
         return res.status(500).json({ message: 'Error al agregar el producto.' });
+    }
+});
+
+// Ruta para actualizar un carrito con un arreglo de productos
+router.put('/api/cart/:cid', async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const { products } = req.body.payload;
+        
+        // Buscar el carrito por su ID
+        const cart = await cartModel.findById(cid);
+
+        if (!cart) {
+            return res.status(404).json({ status: 'error', error: 'Carrito no encontrado.' });
+        }
+
+        // Limpiar los productos existentes en el carrito
+        cart.products = [];
+
+        // Inicializar el total del carrito
+        let total = 0;
+
+        // Iterar sobre el arreglo de productos y agregar cada producto al carrito
+        for (const product of products) {
+            const { _id, quantity } = product;
+            const productData = await productModel.findById(_id);
+
+            if (!productData) {
+                return res.status(404).json({ status: 'error', error: 'Producto no encontrado.' });
+            }
+
+            // Verificar si hay suficiente stock para la cantidad solicitada
+            if (productData.stock < quantity) {
+                return res.status(400).json({ status: 'error', error: 'No disponemos de ese stock.' });
+            }
+
+            // Agregar el producto al carrito
+            cart.products.push({
+                product: _id,
+                quantity: quantity,
+            });
+
+            // Actualizar el stock del producto
+            await productModel.updateOne({ _id: _id }, { $inc: { stock: -quantity } });
+
+            // Calcular el subtotal para el producto y agregarlo al total del carrito
+            const productSubtotal = productData.price * quantity;
+            total += productSubtotal;
+        }
+
+        // Actualizar los productos y el total del carrito en la base de datos
+        await cartModel.updateOne({ _id: cid }, { products: cart.products, total: total });
+
+        return res.json({ result: 'success', payload: cart });
+    } catch (error) {
+        return res.status(500).json({ status: 'error', error: 'Error al actualizar el carrito.' });
     }
 });
 

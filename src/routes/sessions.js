@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
+const User = require('../models/usermodel');
 const passport = require('passport');
-const { createHash, isValidatePassword } = require('../../utils');
+const { createHash, isValidatePassword } = require('../utils/bcrypt')
 const admin = "adminCoder@coder.com"
 
 router.get('/register', (req, res) => {

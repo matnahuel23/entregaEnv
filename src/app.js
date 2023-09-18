@@ -1,4 +1,8 @@
 const express = require('express');
+const mongoose = require('mongoose')
+const MongoStore = require('connect-mongo');
+const session = require('express-session');
+const bodyParser = require('body-parser');
 const http = require('http');
 const path = require('path');
 const { Server } = require('socket.io');
@@ -8,31 +12,54 @@ const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const { productModel } = require('./models/productmodel');
 const PORT = process.env.PORT || 8080;
+const passport = require('passport')
+const initializePassport = require('./config/passport.config')
+const mongoURL = 'mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/login?retryWrites=true&w=majority'
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: mongoURL,
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 6000,
+    }),
+    secret: 'adminCod3r123',
+    // resave en false hace que la sesión muera luego de un tiempo, si quiero que quede activa le pongo true
+    resave: false,
+    // saveUninitialized en true guarda sesión aun cuando el objeto de sesión no tenga nada por contener
+    saveUninitialized: true,
+}));
+initializePassport();
+app.use(passport.initialize())
+app.use(passport.session())
+//mongoose**********************************/
+mongoose.connect(mongoURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 //Routes
 const productsRouter = require('./routes/products.router')
 const cartsRouter = require('./routes/carts.router')
 const chatRouter = require('./routes/chat.router')
-//Mongoose*************************************************/
-const mongoose = require('mongoose')
-//*********************************************************/
+const sessionsRouter = require('./routes/sessions');
+
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Rutas
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+//Rutas a vistas
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/', sessionsRouter)
 app.use('/', productsRouter.router)
 app.use('/', cartsRouter.router)
 app.use('/', chatRouter.router)
-
-app.get("/", (req, res) => {
-    res.render("index.hbs");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.get('/', (req, res) => {
+    res.render('login.hbs')     
 })
-
+//
 const users = {}
 
 io.on("connection", (socket) => {
@@ -98,18 +125,6 @@ io.on("connection", (socket) => {
     })
 
 })
-
-//mongoose**********************************/
-const environment = async () => {
-    try {
-        await mongoose.connect('mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority');
-        console.log("Conectado a la BD de Mongo Atlas")
-    } catch (error) {
-        console.error("Error en la conexión", error);
-    }
-};
-
-environment();
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

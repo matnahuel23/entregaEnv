@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const uploader = require('../../utils/multerUtil')
+const uploader = require('../utils/multerUtil')
 // Mongoose
-const {productModel} = require('../../models/productmodel')
+const {productModel} = require('../models/productmodel')
 
 // Array de productos
 const products = []
@@ -60,7 +60,7 @@ router.get('/products', async (req, res) => {
             sort: { price: priceSort },
         };
         let products = await productModel.paginate(conditions, options);
-        const viewPath = path.join(__dirname, '../../views/products.hbs');
+        const viewPath = path.join(__dirname, '../views/products.hbs');
         res.render(viewPath, { products})
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al obtener los productos. Detalles: ' + error.message });
@@ -143,7 +143,7 @@ router.delete('/api/products/:pid', async (req, res) => {
 router.get('/realtimeproducts', async (req, res) => {
     try {
         let products = await productModel.find()
-        const viewPath = path.join(__dirname, '../../views/realtimeproducts.hbs');
+        const viewPath = path.join(__dirname, '../views/realtimeproducts.hbs');
         res.render(viewPath, { products });
     } catch (error) {
         res.send({status:"error", error: 'Error al obtener los productos.' });

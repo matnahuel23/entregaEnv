@@ -11,9 +11,9 @@ const io = new Server(server);
 const { productModel } = require('./models/productmodel');
 const PORT = process.env.PORT || 8080;
 //Routes
-const productsRouter = require('./dao/MongoDb/products.router')
-const cartsRouter = require('./dao/MongoDb/carts.router')
-const chatRouter = require('./dao/MongoDb/chat.router')
+const productsRouter = require('./routes/products.router')
+const cartsRouter = require('./routes/carts.router')
+const chatRouter = require('./routes/chat.router')
 //Mongoose*************************************************/
 const mongoose = require('mongoose')
 //*********************************************************/

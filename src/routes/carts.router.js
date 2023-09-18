@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const {cartModel} = require('../../models/cartmodel')
-const {productModel} = require('../../models/productmodel')
+const {cartModel} = require('../models/cartmodel')
+const {productModel} = require('../models/productmodel')
 
 // Array de carritos
 const cart = []
@@ -29,7 +29,7 @@ router.get('/cart/:cartId', async (req, res) => {
         for (const item of cart.products) {
             total += item.product.price * item.quantity;
         }
-        const viewPath = path.join(__dirname, '../../views/cart.hbs');
+        const viewPath = path.join(__dirname, '../views/cart.hbs');
         res.render(viewPath, { cart, total });
     } catch (error) {
         res.status(500).send({ status: 'error', error: 'Error al obtener el carrito.' });

@@ -8,7 +8,7 @@
 
 <body>
     <div class="container text-right text-muted mt-2">
-        <h5>Esta logueado como: {{first_name}}</h5>
+        <h5>Administrador: {{first_name}}</h5>
     </div>
     <div id="product-form">
         <h1>Producto</h1>
@@ -42,7 +42,10 @@
                 </form>
         </div>
     </div>
-    <a href="/logout"><button>Desloguearse</button></a>
+    <div class="fixed-bottom m-3">
+        <a href="/chat"><button>Chat</button></a>
+        <a href="/logout" class="btn btn-danger float-right">Desloguearse</a>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/scripts.js"></script>
 </body>

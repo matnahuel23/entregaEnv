@@ -6,7 +6,8 @@ const path = require('path');
 router.get('/chat', async (req, res) => {
     try {
         const viewPath = path.join(__dirname, '../views/chat.hbs');
-        res.render(viewPath);
+        const { first_name} = req.session.user;
+        res.render(viewPath, { first_name})
     } catch (error) {
         res.status(500).json({ error: 'Error en el chat.' });
     }

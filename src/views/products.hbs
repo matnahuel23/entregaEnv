@@ -39,6 +39,8 @@
         <!-- Aplicar -->
         <div class="mb-3">
             <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
+            <a href="/logout"><button class="btn btn-primary float-right">Desloguearse</button></a>
+
         </div>
         <div class="row">
             {{#each products.docs}}
@@ -88,6 +90,9 @@
                 <a href="?page={{products.nextPage}}&limit={{products.limit}}" class="btn btn-primary">Página Siguiente</a>
             {{/if}}
         </div>
+    </div>
+    <div class="container text-right text-muted mt-2">
+        <h6>Esta logueado como: {{first_name}}</h6>
     </div>
     <script src="/scripts/productscript.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

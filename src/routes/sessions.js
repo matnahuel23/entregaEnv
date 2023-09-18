@@ -25,7 +25,7 @@ router.post('/register', (req, res, next) => {
             password: createHash(password)
         };
         delete user.password
-        res.redirect('/profile');
+        res.redirect('/products');
     } catch (error) {
         return res.status(500).send('Error al registrar usuario.');
     }
@@ -48,10 +48,10 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
     // Verificar si el usuario es administrador
     if (req.user.email === admin) {
         req.session.admin = true;
-        return res.redirect('/privado');
+        return res.redirect('/admin');
     } else {
         req.session.admin = false;
-        res.redirect('/profile');
+        res.redirect('/products');
     }
 });
 
@@ -171,7 +171,7 @@ router.get('/github', passport.authenticate('github', {scope:['user:email']}, as
 router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'login'}), async(req,res) => {
     // Nuestra estrategia nos devolvera al usuario, solo lo agregamos a nuestro objeto de sesión.
     req.session.user = req.user
-    res.redirect('/profile');
+    res.redirect('/products');
 })
 
 module.exports = router;

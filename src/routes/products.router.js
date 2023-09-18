@@ -4,7 +4,7 @@ const path = require('path');
 const uploader = require('../utils/multerUtil')
 // Mongoose
 const {productModel} = require('../models/productmodel')
-
+const usermodel = require('../models/usermodel')
 // Array de productos
 const products = []
 
@@ -61,7 +61,8 @@ router.get('/products', async (req, res) => {
         };
         let products = await productModel.paginate(conditions, options);
         const viewPath = path.join(__dirname, '../views/products.hbs');
-        res.render(viewPath, { products})
+        const { first_name, email, age } = req.session.user;
+        res.render(viewPath, { products, first_name, email, age})
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al obtener los productos. Detalles: ' + error.message });
     }
@@ -147,6 +148,16 @@ router.get('/realtimeproducts', async (req, res) => {
         res.render(viewPath, { products });
     } catch (error) {
         res.send({status:"error", error: 'Error al obtener los productos.' });
+    }
+});
+
+router.get('/admin', async (req, res) => {
+    try {
+        const viewPath = path.join(__dirname, '../views/admin.hbs');
+        const { first_name, email, age } = req.session.user;
+        res.render(viewPath, { products, first_name, email, age})
+    } catch (error) {
+        res.status(500).json({ error: 'Error en el ingreso al admin.' });
     }
 });
 

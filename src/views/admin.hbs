@@ -1,24 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/socket.io@4"></script>
+    <title>Carga de Inventario</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Carga Inventario</title>
 </head>
 
 <body>
-    <div id="username-div">
-        <h1>Ingrese su nombre de usuario:</h1>
-        <form id="username-form">
-            <input type="text" id="username" required>
-            <button type="submit">Ingresar</button>
-        </form>
+    <div class="container text-right text-muted mt-2">
+        <h5>Esta logueado como: {{first_name}}</h5>
     </div>
-
-    <div id="product-form" style="display: none">
+    <div id="product-form">
         <h1>Producto</h1>
         <form id="form" action="/api/products" method="post">
             <label for="title">Nombre del Producto</label>
@@ -50,6 +42,7 @@
                 </form>
         </div>
     </div>
+    <a href="/logout"><button>Desloguearse</button></a>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/scripts.js"></script>
 </body>

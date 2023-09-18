@@ -15,7 +15,7 @@ const io = new Server(server);
 const PORT = process.env.PORT || 8080;
 const passport = require('passport')
 const initializePassport = require('./config/passport.config')
-const mongoURL = 'mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/login?retryWrites=true&w=majority'
+const mongoURL = 'mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority'
 
 app.use(session({
     store: MongoStore.create({

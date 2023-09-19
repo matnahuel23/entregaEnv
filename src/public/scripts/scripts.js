@@ -1,22 +1,5 @@
 const socket = io();
 
-document.getElementById("username-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const usernameInput = document.getElementById("username");
-    const username = usernameInput.value;
-
-    socket.emit("newUser", username);
-
-    Swal.fire({
-        icon: "success",
-        title: "Bienvenido a la carga de productos",
-        text: `Estas conectado como: ${username}`
-    });
-
-    document.getElementById("username-form").style.display = "none";
-    document.getElementById("product-form").style.display = "block";
-});
-
 // Agregar un producto
 document.getElementById("form").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -60,7 +43,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 // Eliminar un producto
 document.getElementById("delete-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const deleteId = document.getElementById("delete-id").value;
     
     try {

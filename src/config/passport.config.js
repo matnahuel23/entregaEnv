@@ -4,6 +4,7 @@ const userService = require("../models/usermodel");
 const { createHash, isValidatePassword } = require("../utils/bcrypt");
 const GitHubStrategy = require('passport-github2')
 const localStrategy = local.Strategy;
+const admin = "adminCoder@coder.com"
 
 const initializePassport = () => {
     // Configuración de la estrategia local de registro
@@ -22,6 +23,10 @@ const initializePassport = () => {
                     email,
                     age,
                     password: createHash(password)
+                }
+                if(email == admin)
+                {
+                    newUser.role = "admin"
                 }
                 let result = await userService.create(newUser)
                 return done(null, result);

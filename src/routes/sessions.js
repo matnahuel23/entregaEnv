@@ -25,7 +25,7 @@ router.post('/register', (req, res, next) => {
             password: createHash(password)
         };
         delete user.password
-        res.redirect('/products');
+        res.redirect('/profile');
     } catch (error) {
         return res.status(500).send('Error al registrar usuario.');
     }

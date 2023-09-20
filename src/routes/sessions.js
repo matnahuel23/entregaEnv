@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/usermodel');
+const {cartModel} = require('../models/cartmodel')
 const passport = require('passport');
 const { createHash, isValidatePassword } = require('../utils/bcrypt')
 const admin = "adminCoder@coder.com"
@@ -176,5 +177,39 @@ router.get('/githubcallback', passport.authenticate('github',{failureRedirect:'l
     req.session.user = req.user
     res.redirect('/products');
 })
+
+// Elimino usuario, que elimina carrito y session asociados
+router.delete('/usuario', async (req, res) => {
+    try {
+        // Obtén el _id del usuario que deseas eliminar desde los parámetros de la solicitud
+        const userId = req.query._id;
+
+        // Verifica si el _id es válido (puede ser necesario convertirlo a un objeto ObjectId)
+        if (!userId) {
+            return res.status(400).json({ status: 'Error', error: 'Falta el parámetro _id' });
+        }
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ status: 'Error', error: 'Usuario no encontrado' });
+        }
+
+        // Elimina el carrito asociado al usuario
+        const cartId = user.cart;
+        await cartModel.findByIdAndRemove(cartId);
+
+        // Elimina al usuario
+        await User.findByIdAndRemove(userId);
+
+        // Destruye la sesión
+        if (req.session) {
+            req.session.destroy();
+        }
+
+        res.json({ status: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 'Error', error: 'Error al eliminar el usuario y el carrito' });
+    }
+});
 
 module.exports = router;

@@ -130,14 +130,25 @@ router.put('/api/products/:pid', async (req, res) => {
     try {
         let {pid} = req.params;
         const productToReplace = req.body;
+
         // Validamos que se proporcionen campos para actualizar
         if (Object.keys(productToReplace).length === 0) {
             return res.send({ status:"error", error: 'Debe proporcionar al menos un campo para actualizar.' });
         }
+
+        // Verificamos si el stock es igual a 0 y actualizo el status
+        if (productToReplace.stock == "0") {
+            productToReplace.status = false
+        }
+        else{
+            productToReplace.status = true
+        }
+
         let result = await productModel.updateOne({_id: pid}, productToReplace)
         if (!result) {
             return res.send({ status:"error", error: 'Producto no encontrado.' });
         }
+
         // Actualizamos los campos del producto encontrado
         res.send({ result: "success", payload: result })
     } catch (error) {

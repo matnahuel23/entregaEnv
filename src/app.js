@@ -18,6 +18,9 @@ const passport = require('passport')
 const initializePassport = require('./config/passport.config')
 const mongoURL = 'mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority'
 
+//Cookie
+app.use(cookieParser("CoderS3cR3tC0D3"))
+//Session
 app.use(session({
     store: MongoStore.create({
         mongoUrl: mongoURL,
@@ -48,8 +51,6 @@ app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
-//Cookie
-app.use(cookieParser("CoderS3cR3tC0D3")) // Con firma
 
 //Rutas a vistas
 app.use(express.json());

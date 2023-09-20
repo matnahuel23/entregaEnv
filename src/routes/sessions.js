@@ -39,6 +39,9 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
     if (!req.user) {
         return res.status(400).send({ status: "error", error: "Credenciales inválidas" });
     }
+    // Guarda el ID de la sesión en una cookie personalizada
+    res.cookie('sessionID', req.sessionID, { maxAge: 3600000 }); // Configura el tiempo de vida de la cookie en milisegundos (1 hora)
+
     req.session.user = {
         first_name: req.user.first_name,
         last_name: req.user.last_name,

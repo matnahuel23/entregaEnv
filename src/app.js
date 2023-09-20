@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo');
 const session = require('express-session');
@@ -41,17 +42,20 @@ mongoose.connect(mongoURL, {
 const productsRouter = require('./routes/products.router')
 const cartsRouter = require('./routes/carts.router')
 const chatRouter = require('./routes/chat.router')
-const sessionsRouter = require('./routes/sessions');
-
+const sessionsRouter = require('./routes/sessions')
+const cookieRouter = require('./routes/cookie.router')
 app.engine("handlebars", handlebars.engine())
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
+//Cookie
+app.use(cookieParser("CoderS3cR3tC0D3")) // Con firma
 
 //Rutas a vistas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', sessionsRouter)
+app.use('/', cookieRouter)
 app.use('/', productsRouter.router)
 app.use('/', cartsRouter.router)
 app.use('/', chatRouter.router)
@@ -60,6 +64,7 @@ app.get('/', (req, res) => {
     res.render('login.hbs')     
 })
 //
+
 const users = {}
 
 io.on("connection", (socket) => {

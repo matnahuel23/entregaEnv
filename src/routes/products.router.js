@@ -68,6 +68,21 @@ router.get('/products', async (req, res) => {
     }
 });
 
+// Ruta para obtener un producto por Title
+router.get('/api/products/search:title', async (req, res) => {
+    try {
+        let { title } = req.query
+        let product = await productModel.findOne({ title })
+        if (!product) {
+            res.send({ status: "error", error: 'Producto no encontrado.' });
+        } else {
+            res.send({ result: "success", payload: product });
+        }
+    } catch (error) {
+        res.send({ status: "error", error: 'Error al obtener el producto.' });
+    }
+});
+
 // Ruta para obtener un producto por id
 router.get('/api/products/:pid', async (req, res) => {
     try {

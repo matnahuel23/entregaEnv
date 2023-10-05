@@ -69,7 +69,7 @@ document.querySelectorAll('form[id^="addToCartForm-"]').forEach(function (form) 
         }
 
         try {
-            const response = await fetch(`/api/cart/650b342d5e31f93882dc49d2/product/${productIdFromFormId}`, {
+            const response = await fetch(`/api/cart/${cart}/product/${productIdFromFormId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ document.querySelectorAll('form[id^="deleteToCartForm-"]').forEach(function (for
         }
 
         try {
-            const response = await fetch(`/api/cart/650b342d5e31f93882dc49d2/product/${productIdFromFormId}`, {
+            const response = await fetch(`/api/cart/${cart}/product/${productIdFromFormId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

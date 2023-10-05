@@ -42,13 +42,15 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
     }
     // Guarda el ID de la sesión en una cookie personalizada
     res.cookie('sessionID', req.sessionID, { maxAge: 3600000 }); // Configura el tiempo de vida de la cookie en milisegundos (1 hora)
-
+    
     req.session.user = {
         first_name: req.user.first_name,
         last_name: req.user.last_name,
         age: req.user.age,
-        email: req.user.email
+        email: req.user.email,
+        cart: req.user.cart // Agrega los datos del carrito a la sesión
     };
+
     // Verificar si el usuario es administrador
     if (req.user.email === admin) {
         req.session.admin = true;

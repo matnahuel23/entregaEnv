@@ -61,8 +61,8 @@ router.get('/products', async (req, res) => {
         };
         let products = await productModel.paginate(conditions, options);
         const viewPath = path.join(__dirname, '../views/products.hbs');
-        const { first_name, email, age } = req.session.user;
-        res.render(viewPath, { products, first_name, email, age})
+        const { first_name, email, age, cart } = req.session.user;
+        res.render(viewPath, { products, first_name, email, age, cart})
     } catch (error) {
         res.status(500).send({ status: "error", error: 'Error al obtener los productos. Detalles: ' + error.message });
     }

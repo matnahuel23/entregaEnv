@@ -13,13 +13,17 @@ const cartsJsonPath = path.join(__dirname, 'data', 'carts.json');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const PORT = process.env.PORT || 8080;
 const passport = require('passport')
 const initializePassport = require('./config/passport.config')
-const mongoURL = 'mongodb+srv://matiasierace:bestoso77@cluster0.132340f.mongodb.net/ecommerce?retryWrites=true&w=majority'
+// APLICO EL .ENV
+const config = require ('./config/config.js')
+const mongoURL = config.mongoUrl
+const PORT = config.port || 8080;
+const cookiePass = config.cookiePass
+const adminPass = config.adminPass
 
 //Cookie
-app.use(cookieParser("CoderS3cR3tC0D3"))
+app.use(cookieParser(cookiePass))
 //Session
 app.use(session({
     store: MongoStore.create({
@@ -27,7 +31,7 @@ app.use(session({
         mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
         ttl: 6000,
     }),
-    secret: 'adminCod3r123',
+    secret: adminPass,
     // resave en false hace que la sesión muera luego de un tiempo, si quiero que quede activa le pongo true
     resave: false,
     // saveUninitialized en true guarda sesión aun cuando el objeto de sesión no tenga nada por contener

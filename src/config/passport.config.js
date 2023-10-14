@@ -7,7 +7,11 @@ const {cartModel} = require('../models/cartmodel')
 const { createHash, isValidatePassword } = require("../utils/bcrypt");
 const GitHubStrategy = require('passport-github2')
 const localStrategy = local.Strategy;
-const admin = "adminCoder@coder.com"
+const config = require ("./config.js")
+const admin = config.adminName
+const clientID = config.clientID
+const clientSecret = config.clientSecret
+const callbackURL = config.callbackURL
 
 const initializePassport = () => {
     // Configuración de la estrategia local de registro
@@ -78,9 +82,9 @@ const initializePassport = () => {
     }));
     // Configuración de la estrategia de registro con GitHub, previamente instale passport-github2
     passport.use('github', new GitHubStrategy({
-        clientID: "Iv1.1e44b8fedafbceae",
-        clientSecret: '7d394776f813e113817fe640f4d547dd96d97774',
-        callbackURL: 'http://localhost:8080/githubcallback'
+        clientID: clientID,
+        clientSecret: clientSecret,
+        callbackURL: callbackURL
     }, async(accessToken, refreshToken, profile, done) => {
         try{
             // console.log(profile) //chequeo info que viene del perfil

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos en Stock</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-4">Productos en Stock</h1>
+        <!-- Filtros por Categoría -->
+        <div class="mb-3">
+            <label for="categoryFilter">Filtrar por Categoría:</label>
+            <select id="categoryFilter" class="form-control">
+                <option value="">Todas las categorías</option>
+                <option value="gaseosa">Gaseosa</option>
+                <option value="vino">Vino</option>
+                <option value="cerveza">Cerveza</option>
+            </select>
+        </div>
+        <!-- Filtros por Estado -->
+        <div class="mb-3">
+            <label for="statusFilter">Filtrar por Estado:</label>
+            <select id="statusFilter" class="form-control">
+                <option value="">Todos los estados</option>
+                <option value="true">Activo</option>
+                <option value="false">Inactivo</option>
+            </select>
+        </div>
+        <!-- Ordenar por Precio -->
+        <div class="mb-3">
+            <label for="priceSort">Ordenar por Precio:</label>
+            <select id="priceSort" class="form-control">
+                <option value="">Todos</option>
+                <option value="1">Menor a Mayor</option>
+                <option value="-1">Mayor a Menor</option>
+            </select>
+        </div>
+        <!-- Aplicar -->
+        <div class="mb-3">
+            <button class="btn btn-primary" onclick="applyFilters()">Aplicar Filtros</button>
+            <a href="/logout"><button class="btn btn-danger float-right">Desloguearse</button></a>
+
+        </div>
+        <div class="row">
+            {{#each products.docs}}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="/img/{{this.thumbnails.[0]}}" class="card-img-top" alt="{{this.title}}" style="width: 250px; height: 250px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text">Precio: ${{this.price}}</p>
+                        <p class="card-text">Stock: {{this.stock}}</p>
+                         <!-- Botones para agregar/quitar del carrito -->
+                        <div>
+                        <form id="addToCartForm-{{this._id}}" action="/api/cart/{{cart}}/product/{{this._id}}" method="PUT">
+                            <input type="number" name="quantity" placeholder="Cantidad" min="1" value="1" max="{{this.stock}}">
+                            <button class="btn btn-success" type="submit">Agregar</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Información de Paginación -->
+        <div>
+            <p>Página {{products.page}} de {{products.totalPages}}</p>
+            <p>Total de productos: {{products.totalDocs}}</p>
+        </div>
+        <!-- Mostrar Cantidad de Productos por Página -->
+        <div class="mb-3">
+            <label for="perPage">Mostrar:</label>
+            <select id="perPage" class="form-control">
+                <option value="">Productos</option>
+                <option value="12">12 Productos</option>
+                <option value="6">6 Productos</option>
+                <option value="2">2 Productos</option>
+            </select>
+        </div>
+         <!-- Botones de Paginación -->
+        <div class="d-flex justify-content-center">
+            {{#if products.hasPrevPage}}
+                <a href="?page={{products.prevPage}}&limit={{products.limit}}" class="btn btn-primary">Página Anterior</a>
+            {{/if}}
+            
+            {{#if products.hasNextPage}}
+                <a href="?page={{products.nextPage}}&limit={{products.limit}}" class="btn btn-primary ml-2">Página Siguiente</a>
+            {{/if}}
+        </div>
+    </div>
+    <div class="container text-right text-muted mt-2">
+    <h6>Estás logueado como: {{first_name}}</h6>
+    </ul>
+</div>
+    <script>
+        const cart = "{{cart}}";
+    </script>
+    <script src="/scripts/productscript.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

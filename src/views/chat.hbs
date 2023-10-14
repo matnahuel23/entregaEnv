@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div id="username-form">
+    <h1>Usuario:</h1>
+    <form id="username-form">
+        <input type="text" class="form-control" id="username" value="{{first_name}}" readonly>
+        <button type="submit" class="btn btn-success">Unirme al chat</button>
+        <a href="/logout" class="btn btn-danger float-right">Desloguearse</a>
+    </form>
+    </div>
+
+    </div>
+    <div id="chat-form" style="display: none">
+        <h1>Sala de chat</h1>
+        <div id="chat-messages"></div>
+        <form id="chat-form">
+            <input type="text" id="message" required>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/chatscript.js"></script>
+    <script>
+        let firstNameValue = "{{first_name}}";
+        document.getElementById("username").value = firstNameValue;
+    </script>
+</body>
+
+</html>

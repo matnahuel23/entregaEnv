@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Realtime Products</title>
+</head>
+
+<body>
+    <h1>Productos en tiempo real</h1>
+    <table id="product-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Filas de productos se agregarán aquí dinámicamente -->
+        </tbody>
+    </table>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/realtime.js"></script>
+</body>
+
+</html>
